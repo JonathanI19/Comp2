@@ -18,6 +18,7 @@ Example:
 #include<fstream>
 #include<vector>
 #include "util.h"
+#include<cmath>
 
 using namespace std;
 
@@ -34,10 +35,12 @@ int main(int argc, char** argv){
     int n = 0;
     double avg = 0;
     double root = 0;
+    double product;
     string line;
     int val;
     vector<int> arr;
     int max1,max2;
+    bool i;
 
     // Open file stream
     ifstream file_id(filename);
@@ -50,11 +53,23 @@ int main(int argc, char** argv){
         arr.push_back(val);
     }
 
-    // Call functions to calculate and display results
+    // Call functions to calculate avg and determine two highest numbers
     avg = findMean(n,s);
     findMax2(arr, max1, max2);
-    root = findRoot(max1, max2);
-    dispResults(avg, root);
+
+    // Calculate root and determine if complex
+    product = (double)max1*(double)max2;
+    if (product >= 0) {
+        i = false;
+    }
+    else {
+        i = true;
+        product = product * -1;
+    }
+    root = sqrt(product);
+    
+    // Disp results with formatting
+    dispResults(avg, root, i);
 
     // Close file
     file_id.close();

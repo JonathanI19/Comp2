@@ -30,17 +30,18 @@ double findMean(int n, int s) {
     return avg;
 }
 
-double findRoot(int max1, int max2) {
-    double product = (double)max1*(double)max2;
-    double root = sqrt((double)product);
-    return root;
-}
-
-void dispResults(double avg, double root) {
+void dispResults(double avg, double root, bool i) {
 
     // Set precision to decimal places (fixed)
     cout << fixed;
     cout << setprecision(2);
     cout << "Avg: " << avg << endl;
-    cout << "Root: " << root << endl;
+
+    // Different root formatting depending on if result was complex
+    if (i) {
+        cout << "Root: " << root << "i" << endl;
+    }
+    else {
+        cout << "Root: " << root << endl;
+    }
 }

@@ -24,7 +24,8 @@ double findRoot(int max1, int max2);
 /// @brief Outputs formatted results to terminal
 /// @param avg (double) Calculated avg value
 /// @param root (double) Calculated root value
+/// @param i (bool) True if complex
 /// @return void 
-void dispResults(double, double);
+void dispResults(double, double, bool);
 
 #endif

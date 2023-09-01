@@ -37,9 +37,20 @@ def main(argv):
     arr_length=len(x)
     avg = findAvg(x, arr_length)
     max1,max2 = findMax2(x)
-    root = calcRoot(max1, max2)
-    dispResults(avg, root)
-
+    product = max1*max2
+    
+    # Determine if root will be complex
+    if (product >= 0):
+        i = False
+    else:
+        product = product * -1
+        i = True
+    
+    # Calculate root of positive product
+    root = math.sqrt(product)
+    
+    dispResults(avg, root, i)
+    
 def findAvg(x, arr_length):
     ''' Calculates the average of an array of numbers
     
@@ -51,20 +62,6 @@ def findAvg(x, arr_length):
 
     arr_sum=sum(x)
     return(arr_sum/arr_length)
-
-def calcRoot(num1, num2):    
-    """Calculate root of product of 2 numbers
-
-    Args:
-        num1 (numeric): first number
-        num2 (numeric): second number
-
-    Returns:
-        numeric: root of product of num1 and num2
-    """ 
-
-    root = math.sqrt((num1*num2))
-    return root    
         
 def findMax2(x):
     """find 2 largest non-duplicate numbers in list
@@ -89,16 +86,22 @@ def findMax2(x):
         else:
             return max1, max2
 
-def dispResults(avg, root):
+def dispResults(avg, root, i):
     """Displays results to two decimal places
 
     Args:
         avg (numeric): Average value
         root (numeric): Root of product of two largest (non-duplicates) values
+        i (boolean): True if root was complex
     """    
+    
+    # Determine if root is complex and adjust formatting
+    if i == True:
+        str = "Avg: {0:.2f}\nRoot: {1:.2f}i"
+    else:
+        str = "Avg: {0:.2f}\nRoot: {1:.2f}"
 
-    # Print w/Formatting
-    str = "Avg: {0:.2f}\nRoot: {1:.2f}"
+    # Print w/Formatting    
     print(str.format(avg, root))
 
 if __name__=="__main__":
