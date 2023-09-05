@@ -1,9 +1,9 @@
 """
     Test file for the "student" class stored in student.cpp and student.h
 
-    @Author: Jonathan Isely
-    @Contact: jonathan.isely@temple.edu
-    @Date: 9/10/2023
+    @Author: I. Obeid
+    @Contact: iyad.obeid@temple.edu
+    @Date: August 30, 2023
 
     Usage:
         python lab_02.py

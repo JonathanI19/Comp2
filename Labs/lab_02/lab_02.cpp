@@ -21,11 +21,11 @@ int main(){
 
     // create a new student, add grades, and display results
     student alice;
+
     alice.set_name("Alice");
     alice.add_grade(95);
     alice.add_grade(88);
     alice.add_grade(92);
-
     cout << endl;
     alice.display();
     cout << "Alice's average = " << fixed << setprecision(2) << alice.get_average() << endl;

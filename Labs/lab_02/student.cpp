@@ -1,3 +1,11 @@
+/*
+    Student utility file
+
+    @Author: Jonathan Isely
+    @Contact: jonathan.isely@temple.edu
+    @Date: 9/10/2023
+*/
+
 #include<vector>
 #include<string>
 #include "student.h"
@@ -24,14 +32,26 @@ void student::add_grade(int val) {
 
 // Max getter
 int student::get_max() {
-    sort(grades.begin(), grades.end(), greater<int>());
-    return grades.at(0);
+    if (count == 0) {
+        cout << "{ERROR: No grades entered.}  ";
+        return 0;
+    }
+    else{
+        sort(grades.begin(), grades.end(), greater<int>());
+        return grades.at(0);
+    }
 }
 
 // Get Avg
 double student::get_average() {
-    double avg = (double)total/(double)count;
-    return avg;
+    if (count == 0) {
+        cout << "{ERROR: No grades entered.}  ";
+        return 0;
+    }
+    else{
+        double avg = (double)total/(double)count;
+        return avg;
+    }
 }
 
 // Display method

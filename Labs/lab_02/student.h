@@ -1,3 +1,11 @@
+/*
+    Student utility file header
+
+    @Author: Jonathan Isely
+    @Contact: jonathan.isely@temple.edu
+    @Date: 9/10/2023
+*/
+
 #ifndef STUDENT_H
 #define STUDENT_H
 
@@ -10,7 +18,7 @@ class student{
 
     private:
     /// @brief name of student
-    string name;
+    string name = "NAME_PENDING";
     /// @brief Vector of grades
     vector<int> grades;
     
