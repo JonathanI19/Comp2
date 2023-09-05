@@ -14,7 +14,7 @@ class student:
 
     def __init__(self):
         '''Constructor'''
-        self.name = ""
+        self.name = "NAME_PENDING"
         self.grades = []
 
     def set_name(self,name):
@@ -43,20 +43,31 @@ class student:
         Args:
             None
         Returns:
-            numeric: Maximum grade
+            numeric: Maximum grade; 0 if no grades added
         '''
-        return max(self.grades)
-
+        
+        # Error handling for if no grades are entered
+        try:
+            return max(self.grades)
+        except ValueError:
+            print("ERROR: No grades entered. Max is None")
+            
     def get_average(self):
         '''Get average of grades list
         
         Args:
             None
         Returns:
-            numeric: Average grade
+            numeric: Average grade; 0 if no grades added
         '''
         total = sum(self.grades)
-        return total/len(self.grades)
+        
+        # Error handling for if no grades are entered
+        try:
+            return total/len(self.grades)
+        except ZeroDivisionError:
+            print("ERROR: No grades entered. Average set to 0.")
+            return 0
 
     def display(self):
         '''Display each grade value
@@ -66,6 +77,7 @@ class student:
         Returns:
             None
         '''
+        print(self.name, "Summary:\n")
         for count, item in enumerate(self.grades, 1):
             print("grade", count, ": ", item)
             

@@ -17,11 +17,12 @@ def main():
     # // create a new student, add grades, and display results
 
     alice = st.student()
+    '''
     alice.set_name("Alice")
     alice.add_grade(95)
     alice.add_grade(88)
     alice.add_grade(92)
-
+    '''
     print("\n")
     alice.display()
     print(f"Alice's average = {alice.get_average():0.2f}" )
