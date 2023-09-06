@@ -56,7 +56,7 @@ cmd_rsync += "--include=""student.h"""      + " "
 cmd_rsync += "--include=""student.cpp"""    + " "
 cmd_rsync += "--include=""student.py"""     + " "
 cmd_rsync += "--include=""Makefile"""        + " "
-md_rsync += "--exclude=""*"""               + " "         # ignore everything else
+cmd_rsync += "--exclude=""*"""               + " "         # ignore everything else
 
 # cmd_rsync += "--exclude="".*"""             + " "       # ignore hidden files
 # cmd_rsync += "--exclude=""*.o"""            + " "       # ignore object files
