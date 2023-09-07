@@ -1,71 +1,89 @@
 #! /usr/bin/env python
 
 import os
-assignment_name = "lab_01"
+import json
+import argparse
 
-# get student username
-full      = os.path.expanduser('~')
-username  = full.split("/")[2]
+SHARE           = os.environ['SHARE']
+assignment_name = "lab_02"
+global EXEC_TYPE
+EXEC_TYPE = 'RSYNC'
 
-# augment the username
-studentlist = {}
-studentlist["tug80737"]="ahmed"
-studentlist["tuo69407"]="badawika"
-studentlist["tuk59682"]="bady"
-studentlist["tuq56433"]="bakum"
-studentlist["tuo54571"]="berman"
-studentlist["tuk35965"]="bulik"
-studentlist["tup32168"]="caiozzo"
-studentlist["tuf97069"]="cavallaro"
-studentlist["tuf99772"]="chandavong"
-studentlist["tun38664"]="chau"
-studentlist["tuj60238"]="cowen"
-studentlist["tul69453"]="dewees"
-studentlist["tul13528"]="grinshpun"
-studentlist["tul60393"]="guan"
-studentlist["tuj15180"]="herrin"
-studentlist["tuo52028"]="ibrahim"
-studentlist["tuf91237"]="isely"
-studentlist["tug68812"]="juarez"
-studentlist["tup76130"]="leap"
-studentlist["tuo56392"]="levin"
-studentlist["tuo61219"]="lopez-morel"
-studentlist["tud21266"]="luka"
-studentlist["tuo72868"]="mcnicholas"
-studentlist["tul16619"]="nghiem"
-studentlist["tuj97730"]="nori"
-studentlist["tuk10978"]="patel"
-studentlist["tun20028"]="predmore"
-studentlist["tuo56709"]="prunes"
-studentlist["tuo73004"]="raab"
+def main():
 
-username_augmented = studentlist[username]  + "_" + username
+    # parse arguements
+    parse_args()
 
-# name and create the target directory
-target_dir = "/data/courses/ece_3822/current/submissions/" + assignment_name + "/" + username_augmented
+    # get student username
+    username  = get_username()
 
-if not os.path.isdir(target_dir):
-    os.system("mkdir " + target_dir)
+    # load student list from file
+    studentlist = get_student_list()
 
-src_files = "."
+    # augment the username
+    username_augmented = studentlist[username]  + "_" + username
 
-# build the rsync command
-cmd_rsync  = "rsync -av --chown=:ece_3822"  + " "       # basic command, force grp to ece_3822
-                                                        # include only these files explicitly
-cmd_rsync += "--include=""student.h"""      + " "
-cmd_rsync += "--include=""student.cpp"""    + " "
-cmd_rsync += "--include=""student.py"""     + " "
-cmd_rsync += "--include=""Makefile"""        + " "
-cmd_rsync += "--exclude=""*"""               + " "         # ignore everything else
+    # name and create the target directory
+    target_dir = os.path.join(SHARE,
+                            'submissions',
+                            assignment_name,
+                            username_augmented)
 
-# cmd_rsync += "--exclude="".*"""             + " "       # ignore hidden files
-# cmd_rsync += "--exclude=""*.o"""            + " "       # ignore object files
-# cmd_rsync += "--exclude=""songlist.txt"""   + " "       # ignore text files
-# cmd_rsync += "--exclude=""readme.txt"""     + " "       # ignore text files
-# cmd_rsync += "--exclude=""submit.py"""      + " "       # ignore submit.py file
-# cmd_rsync += "--exclude=" + assignment_name + " "       # ignore executable with same name as folder
+    if EXEC_TYPE == 'RSYNC':
+        if not os.path.isdir(target_dir):
+            os.system("mkdir " + target_dir)
 
-cmd_rsync += src_files                      + " "       # specify files to copy
-cmd_rsync += target_dir + "/."                          # specify destination folder
+        # rsync files to destination
+        rsync_files(target_dir)
 
-os.system( cmd_rsync )
+    else:
+        list_files(target_dir)
+
+def parse_args():
+    global EXEC_TYPE
+    parser = argparse.ArgumentParser(
+        prog = 'submit.py',
+        description='Submits student ECE 3822 work')
+    parser.add_argument('-l' , '--list' , action='store_true' , help='show list of submitted files')
+    args = parser.parse_args()
+
+    if args.list is True:
+        EXEC_TYPE = 'LIST'
+    
+def get_username():
+    full      = os.path.expanduser('~')
+    username  = full.split("/")[2]
+    return username
+
+def get_student_list():
+    filename = os.path.join(SHARE , 
+                        'submissions' , 
+                        'student_dictionary.json')
+
+    with open(filename,'r') as fid:
+        studentlist = json.load(fid)
+
+    return studentlist
+
+def rsync_files(target_dir):
+    src_files = "."
+
+    # build the rsync command
+    cmd_rsync  = "rsync -av --chown=:ece_3822"  + " "       # basic command, force grp to ece_3822
+                                                            # include only these files explicitly
+    cmd_rsync += "--include=""student.h"""      + " "
+    cmd_rsync += "--include=""student.cpp"""    + " "
+    cmd_rsync += "--include=""student.py"""     + " "
+    cmd_rsync += "--exclude=""*"""              + " "       # ignore everything else
+    
+    cmd_rsync += src_files                      + " "       # specify files to copy
+    cmd_rsync += target_dir + "/."                          # specify destination folder
+
+    os.system( cmd_rsync )
+
+def list_files(target_dir):
+    cmd = 'ls -l ' + target_dir
+    os.system( cmd )
+
+if __name__ == "__main__":
+    main()
