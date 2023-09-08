@@ -74,6 +74,7 @@ def rsync_files(target_dir):
     cmd_rsync += "--include=""student.h"""      + " "
     cmd_rsync += "--include=""student.cpp"""    + " "
     cmd_rsync += "--include=""student.py"""     + " "
+    cmd_rsync += "--include=""Makefile"""       + " "
     cmd_rsync += "--exclude=""*"""              + " "       # ignore everything else
     
     cmd_rsync += src_files                      + " "       # specify files to copy
