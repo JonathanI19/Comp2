@@ -69,32 +69,32 @@ void test_case_1(){
 // Test ability to create teams
 void test_case_2(){
 
-    // cout << "********** Test Case 2 **********" << endl;
+    cout << "********** Test Case 2 **********" << endl;
 
-    // // create players by specifying name and skill level
-    // player* alice = new player("Alice Adams"  , 0);
-    // player* brett = new player("Brett Booth"  , 2);
-    // player* cecil = new player("Cecil Cinder" , 1);
+    // create players by specifying name and skill level
+    player* alice = new player("Alice Adams"  , 0);
+    player* brett = new player("Brett Booth"  , 2);
+    player* cecil = new player("Cecil Cinder" , 1);
 
-    // // create team
-    // team team_1("The Dragons");
+    // create team
+    team team_1("The Dragons");
 
-    // // assign players to teams, set Brett as the captain
-    // team_1.add_player(alice , 0);
-    // team_1.add_player(brett , 1);
-    // team_1.add_player(cecil , 0);
+    // assign players to teams, set Brett as the captain
+    team_1.add_player(alice , 0);
+    team_1.add_player(brett , 1);
+    team_1.add_player(cecil , 0);
 
-    // // play five turns
-    // for (int i = 0 ; i<5 ; i++)
-    //     team_1.play_turn();
+    // play five turns
+    for (int i = 0 ; i<5 ; i++)
+        team_1.play_turn();
     
-    // // display total result
-    // cout << team_1.get_name() << " scored " << team_1.get_score() << endl;
+    // display total result
+    cout << team_1.get_name() << " scored " << team_1.get_score() << endl;
     
-    // // destroy the players!
-    // delete alice, brett, cecil;
+    // destroy the players!
+    delete alice, brett, cecil;
 
-    // cout << endl;
+    cout << endl;
 }
 
 // Play a sample game
