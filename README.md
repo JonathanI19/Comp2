@@ -61,5 +61,7 @@ and two `teams` can play each other. You can make the coding easier by starting
 by building and testing `player` before moving on to `team` and then `competition`.
 
 PROVIDED: 
+
 **play_game.cpp** was provided as a complete file
+
 **Makefile** was provided - links to file in server that contains code for **int generate_score(int)**, which is not included in the GitHub.
