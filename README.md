@@ -50,3 +50,16 @@ Write a class called "student" that stores a student's name and grades
 and can return the maximum and the average grade, as well as display a
 student summary. Do not change lab_02.py or lab_02.cpp.
 
+
+## Project Overview
+
+### Project 1
+In this project, you will used C++ to code up a simple game I have invented.
+The purpose of the project is to practice using classes and objects.
+The game consists of `players`. Multiple players can be grouped into `teams`
+and two `teams` can play each other. You can make the coding easier by starting
+by building and testing `player` before moving on to `team` and then `competition`.
+
+PROVIDED: 
+**play_game.cpp** was provided as a complete file
+**Makefile** was provided - links to file in server that contains code for **int generate_score(int)**, which is not included in the GitHub.
