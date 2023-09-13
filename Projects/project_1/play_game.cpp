@@ -58,6 +58,7 @@ void test_case_1(){
 
     // return the player's score
     int score = alice.get_score();
+    cout << "RETURNED SCORE: " << score << endl;
 
     // display the player's name and total score
     alice.display();
@@ -68,75 +69,75 @@ void test_case_1(){
 // Test ability to create teams
 void test_case_2(){
 
-    cout << "********** Test Case 2 **********" << endl;
+    // cout << "********** Test Case 2 **********" << endl;
 
-    // create players by specifying name and skill level
-    player* alice = new player("Alice Adams"  , 0);
-    player* brett = new player("Brett Booth"  , 2);
-    player* cecil = new player("Cecil Cinder" , 1);
+    // // create players by specifying name and skill level
+    // player* alice = new player("Alice Adams"  , 0);
+    // player* brett = new player("Brett Booth"  , 2);
+    // player* cecil = new player("Cecil Cinder" , 1);
 
-    // create team
-    team team_1("The Dragons");
+    // // create team
+    // team team_1("The Dragons");
 
-    // assign players to teams, set Brett as the captain
-    team_1.add_player(alice , 0);
-    team_1.add_player(brett , 1);
-    team_1.add_player(cecil , 0);
+    // // assign players to teams, set Brett as the captain
+    // team_1.add_player(alice , 0);
+    // team_1.add_player(brett , 1);
+    // team_1.add_player(cecil , 0);
 
-    // play five turns
-    for (int i = 0 ; i<5 ; i++)
-        team_1.play_turn();
+    // // play five turns
+    // for (int i = 0 ; i<5 ; i++)
+    //     team_1.play_turn();
     
-    // display total result
-    cout << team_1.get_name() << " scored " << team_1.get_score() << endl;
+    // // display total result
+    // cout << team_1.get_name() << " scored " << team_1.get_score() << endl;
     
-    // destroy the players!
-    delete alice, brett, cecil;
+    // // destroy the players!
+    // delete alice, brett, cecil;
 
-    cout << endl;
+    // cout << endl;
 }
 
 // Play a sample game
 void test_case_3(){
 
-    cout << "********** Test Case 3 **********" << endl;
+    // cout << "********** Test Case 3 **********" << endl;
 
-    // step 1 create players
-    // this time I'll use a loop to make it easier. We'll make 20 players.
-    // to make things easier we'll assign them all the same ability level
-    player* player_list[20];
-    for (int i = 0 ; i<20 ; i++)
-        player_list[i] = new player("Generic Name" , 2);
+    // // step 1 create players
+    // // this time I'll use a loop to make it easier. We'll make 20 players.
+    // // to make things easier we'll assign them all the same ability level
+    // player* player_list[20];
+    // for (int i = 0 ; i<20 ; i++)
+    //     player_list[i] = new player("Generic Name" , 2);
     
-    // step 2 create teams
-    team team_1("The Dragons");
-    team team_2("The Knights");
+    // // step 2 create teams
+    // team team_1("The Dragons");
+    // team team_2("The Knights");
 
 
-    // step 3 pick teams (the draft)
-    team_1.add_player(player_list[0] , 1);     // team 1 gets a captain
-    for (int i = 1 ; i < 10 ; i++)
-        team_1.add_player(player_list[i],0);   // team 1 gets nine normal players
+    // // step 3 pick teams (the draft)
+    // team_1.add_player(player_list[0] , 1);     // team 1 gets a captain
+    // for (int i = 1 ; i < 10 ; i++)
+    //     team_1.add_player(player_list[i],0);   // team 1 gets nine normal players
 
-    team_2.add_player(player_list[10] , 1);    // team 2 gets a captain
-    for (int i = 11 ; i < 20 ; i++)
-        team_2.add_player(player_list[i],0);   // team 2 gets nine normal players
+    // team_2.add_player(player_list[10] , 1);    // team 2 gets a captain
+    // for (int i = 11 ; i < 20 ; i++)
+    //     team_2.add_player(player_list[i],0);   // team 2 gets nine normal players
 
-    // step 4 - play the game! 5 rounds:
-    for (int i = 0 ; i < 5 ; i++){
-        team_1.play_turn();
-        team_2.play_turn();
-    }
+    // // step 4 - play the game! 5 rounds:
+    // for (int i = 0 ; i < 5 ; i++){
+    //     team_1.play_turn();
+    //     team_2.play_turn();
+    // }
 
-    // step 5 - pick the winner
-    cout << team_1.get_name() << " scored " << team_1.get_score() << endl;
-    cout << team_2.get_name() << " scored " << team_2.get_score() << endl;
-    if (team_1.get_score() > team_2.get_score() )
-        cout << team_1.get_name() << " win!" << endl;
-    else if (team_2.get_score() > team_1.get_score() )
-        cout << team_2.get_name() << " win!" << endl;
-    else
-        cout << "its a tie!" << endl;
+    // // step 5 - pick the winner
+    // cout << team_1.get_name() << " scored " << team_1.get_score() << endl;
+    // cout << team_2.get_name() << " scored " << team_2.get_score() << endl;
+    // if (team_1.get_score() > team_2.get_score() )
+    //     cout << team_1.get_name() << " win!" << endl;
+    // else if (team_2.get_score() > team_1.get_score() )
+    //     cout << team_2.get_name() << " win!" << endl;
+    // else
+    //     cout << "its a tie!" << endl;
 
-    cout << endl;
+    // cout << endl;
 }
