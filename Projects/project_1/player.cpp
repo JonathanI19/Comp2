@@ -1,3 +1,18 @@
+/*
+player.cpp
+
+@author Jonathan Isely
+@contact tuf91237@temple.edu
+@date 9/13/2023
+
+Example:
+    This file can be compiled by typing 
+    make all
+
+    This file can be run by typing
+    ./play_game 1
+*/
+
 #ifndef _PLAYER_
 #define _PLAYER_
 
