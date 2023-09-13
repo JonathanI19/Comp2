@@ -34,7 +34,7 @@ class player{
     private:
 
     /// @brief  (string) Name of player; Placeholder to show missing name in output
-    string _name = "NAME MISSING";
+    string _name = "";
 
     /// @brief  (int) Running count of players score
     int _score;
@@ -48,7 +48,7 @@ class player{
     public:
 
     // Constructor, accepts string and int
-    player(string n = "", int a = 0){
+    player(string n = "NAME MISSING", int a = 0){
         set_name(n);
         set_ability(a);
     }
