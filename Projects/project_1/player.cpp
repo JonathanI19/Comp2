@@ -53,37 +53,37 @@ class player{
         set_ability(a);
     }
 
-    /// @brief Name setter
+    /// @brief Set Player Name
     /// @param n (string) new name value
     void set_name(string n){
         _name = n;
     }
 
-    /// @brief Score setter
+    /// @brief Set Player Score
     /// @param s (int) new score value to be set
     void set_score(int s){
         _score = s;
     }
 
-    /// @brief Ability level setter
+    /// @brief Set Ability Level
     /// @param a (int) new ability level; Expected value: 0, 1, 2
     void set_ability(int a){
         _ability = a;
     }
 
-    /// @brief Captain status setter
+    /// @brief Set Captain Status
     /// @param stat (int) denotes player vs captain; Expected value: 0, 1
     void set_status(int stat){
         _status = stat;
     }
 
-    /// @brief Name getter
+    /// @brief Get Player Name
     /// @return (string) Name of current player
     string get_name(){
         return _name;
     }
 
-    /// @brief Score Getter
+    /// @brief Get Score
     /// @return (int) Score of current player; Expected Value >= 0
     int get_score(){
 
@@ -106,7 +106,7 @@ class player{
         }
     }
     
-    /// @brief Ability Getter
+    /// @brief Get Ability
     /// @return (int) Ability level of current player; Expected Value: 0, 1, 2
     int get_ability(){
 
@@ -129,7 +129,7 @@ class player{
         }
     }
 
-    /// @brief Captain Status Getter
+    /// @brief Get Captain Status
     /// @return (int) Captain Status of current player; Expected Value: 0, 1
     int get_status(){
 
