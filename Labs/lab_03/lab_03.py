@@ -56,6 +56,35 @@ taps.append([
     0.03492494582331887])
 
 #----------------------------------------------------------------------
+class FIR(circ_buffer):
+    """Finite Impulse Response Filter Class
+
+    This class implements a Finite Impulse Response Filter.
+    It inherits circ_buffer and adds the get_filtered method.
+    """    
+    
+    def __init__(self, tap):
+        """Constructor
+        Also calls circ_buffer constructor with size of tap
+
+        Args:
+            tap (list of doubles): Accepts one of the lists from taps global var
+        """        
+        self.tap = tap
+        super().__init__(len(tap))
+        
+    def get_filtered(self):
+        """Performs filtering on current circular buffer
+
+        Returns:
+            float: Calculated FIR of circular buffer
+        """        
+        sum = 0
+        for i in range(self.get_buff_size()):
+            sum += (self.get_element(i)*self.tap[i])
+        return sum
+        
+#----------------------------------------------------------------------
 class moving_average_filter(circ_buffer):
     '''moving average filter class
     
