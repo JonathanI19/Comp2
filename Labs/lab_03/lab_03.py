@@ -15,6 +15,19 @@
         4 - apply filter 2 to the noisy data    
 """
 
+'''
+    data_filter_0: Low Pass
+    data_filter_0 is a low pass filter, as evidenced by the overall envelope of the sinusoid being displayed.
+
+    data_filter_1: Band Pass
+    data_filter_1 is likely a band pass filter, as we still see the lower frequency sinusoid being displayed,
+    albeit with some of the noise introduced by the higher frequencies being imparted upon our output signal.
+
+    data_filter_2: High Pass
+    data_filter_2 is a high pass filter, as the vast majority of the lower frequency sinusoid is obscured by
+    the higher frequency signals.
+'''
+
 from circ_buffer import circ_buffer
 import argparse
 
