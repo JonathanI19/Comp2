@@ -42,6 +42,7 @@ class linked_list{
 
     ll_node::node* head;
     int n_elements;
+    int total;
 
     // public class methods
     public:
@@ -49,6 +50,7 @@ class linked_list{
     linked_list(){
         head = nullptr;
         n_elements = 0;
+        total = 0;
     }
 
     void insert(int d){
@@ -56,12 +58,14 @@ class linked_list{
         newNode->set_next(head);
         head = newNode;
         n_elements++;
+        total += d;
     }
 
     int pop(){
         int ret_val = 0;
         if (n_elements > 0){
             ret_val = head->get_data();
+            total -= ret_val;
             ll_node::node *tmpNode = head;
             head = head->get_next();
             delete tmpNode;
@@ -70,10 +74,29 @@ class linked_list{
         return ret_val;
     }
 
-    void clear_list(){}
-    bool is_empty(){}
-    int size(){}
-    int sum(){}
+    void clear_list(){
+        while (n_elements > 0) {
+            ll_node::node *tmpNode = head;
+            head = head->get_next();
+            delete tmpNode;
+            n_elements--;
+            total = 0;
+        }
+    }
+    bool is_empty(){
+        if (n_elements == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    int size(){
+        return n_elements;
+    }
+    int sum(){
+        return total;
+    }
 };
 
 #endif
