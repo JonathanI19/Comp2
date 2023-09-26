@@ -35,54 +35,90 @@ namespace ll_node{
     };
 }
 
+/// @brief Linked list class - Inherits Node
 class linked_list{
 
     // private class variables
     private:
 
+    /// @brief pointer to the head
     ll_node::node* head;
+
+    /// @brief num of current elements in linked list
     int n_elements;
+
+    /// @brief sum of current data vals
     int total;
 
     // public class methods
     public:
 
+    /// @brief Constructor - Sets head to nullptr
     linked_list(){
         head = nullptr;
         n_elements = 0;
         total = 0;
     }
 
+    /// @brief Inserts data into new node in linked list and adjusts head
+    /// @param d (int) - Data to be inserted
     void insert(int d){
         ll_node::node *newNode = new ll_node::node(d);
         newNode->set_next(head);
         head = newNode;
+
+        // Increment num of elements and add d (int) to total
         n_elements++;
         total += d;
     }
 
+    /// @brief Pops data from head out of the linked list
+    /// @return (int) data from front node of list
     int pop(){
         int ret_val = 0;
+
+        // Pop only list is populated
         if (n_elements > 0){
+
+            // Get return val and remove data (int) from total
             ret_val = head->get_data();
             total -= ret_val;
+
+            // point tmpnode to current head, shift head to next position, 
+            // and then delete data that tmpnode points to
             ll_node::node *tmpNode = head;
             head = head->get_next();
             delete tmpNode;
+            
+            // Decrement num of elements
             n_elements --;
         }
         return ret_val;
     }
 
+    /// @brief Clears list of all nodes
     void clear_list(){
+
+        // Execute while list is populated
         while (n_elements > 0) {
+
+            // Point tmpNode to current head, shift head to next position,
+            // delete data that tmpNode points to
             ll_node::node *tmpNode = head;
             head = head->get_next();
             delete tmpNode;
+
+            // Decrement n_elements
             n_elements--;
-            total = 0;
         }
+
+        // Set total to 0 and return
+        total = 0;
+        return;
     }
+
+    /// @brief Check if linked list is populated
+    /// @return (bool) true if empty, false if populated
     bool is_empty(){
         if (n_elements == 0) {
             return true;
@@ -91,9 +127,15 @@ class linked_list{
             return false;
         }
     }
+
+    /// @brief Get number of nodes in linked list
+    /// @return (int) num of nodes
     int size(){
         return n_elements;
     }
+
+    /// @brief Return sum of data vals (ints) in linked list nodes
+    /// @return (int) sum of data vals in nodes
     int sum(){
         return total;
     }
