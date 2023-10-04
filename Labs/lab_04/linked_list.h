@@ -131,13 +131,41 @@ class linked_list{
     /// @brief Get number of nodes in linked list
     /// @return (int) num of nodes
     int size(){
-        return n_elements;
+        // ORIGINAL METHOD COMMENTED BELOW
+        // return n_elements;
+
+
+        // TESTING ALTERNATIVE METHOD - May be better encapsulation
+        ll_node::node *current1 = head;
+        int size_val = 0;
+        while (current1 != nullptr)
+        {
+            // std::cout << current1->get_data() <<std::endl;
+            current1 = current1->get_next();
+            size_val++;
+        }
+
+        return size_val;
+        // END OF ALTERNATIVE METHOD
     }
 
     /// @brief Return sum of data vals (ints) in linked list nodes
     /// @return (int) sum of data vals in nodes
     int sum(){
-        return total;
+        // ORIGINAL METHOD COMMENTED BELOW
+        // return total;
+
+        // TESTING ALTERNATIVE METHOD - May be better encapsulation
+        int new_total = 0;
+        
+        ll_node::node *temp = head;
+        while (temp != nullptr) {
+            new_total += temp->get_data();
+            temp = temp->get_next();
+        }
+        return new_total;
+        // END OF ALTERNATIVE METHOD
+
     }
 };
 
