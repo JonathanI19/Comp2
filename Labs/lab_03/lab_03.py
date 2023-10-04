@@ -84,7 +84,7 @@ class FIR(circ_buffer):
             tap (list of doubles): Accepts one of the lists from taps global var
         """        
         self.tap = tap
-        super().__init__(len(tap))
+        super().__init__(len(self.tap))
         
     def get_filtered(self):
         """Performs filtering on current circular buffer
