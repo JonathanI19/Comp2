@@ -25,6 +25,15 @@ string get_filename(int argc, char** argv){
 class linked_list_movies : public linked_list<int>{
     public:
 
+    ~linked_list_movies() {
+        node* temp = head;
+        while (temp != nullptr) {
+            head = temp->next;
+            delete temp;
+            temp = head;
+        }
+    }
+
     void display(){
         node* curr_ptr = head;
         while (curr_ptr != nullptr) {
@@ -78,6 +87,16 @@ class linked_list_customers : public linked_list<customer*>{
 
     public:
 
+    ~linked_list_customers() {
+        node* temp = head;
+        while (temp != nullptr) {
+            head = temp->next;
+            delete temp;
+            delete temp->data;
+            temp = head;
+            
+        }
+    }
     void print_customer(int target_id){
         node* curr_ptr = head;
         while (curr_ptr != nullptr) {
