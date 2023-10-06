@@ -35,11 +35,9 @@ class linked_list_movies : public linked_list<int>{
     }
 
     bool has_watched(int target_movie) {
-        cout << endl << "entered has watched" << endl;
         bool watched = false;
         node* curr_ptr = head;
         while (curr_ptr != nullptr) {
-            cout << endl << "Entered has watched while loop" << endl;
             if (curr_ptr->data == target_movie) {
                 watched = true;
             }
@@ -104,16 +102,13 @@ class linked_list_customers : public linked_list<customer*>{
         int count = 0;
         node* curr_ptr = head;
         while (curr_ptr != nullptr) {
-            cout << endl << "within print views while loop" << endl;
             if (curr_ptr->data->movie_ids.has_watched(target_id)) {
-                cout << endl << "within print views if statement" << endl;
                 count ++;
             }
             curr_ptr = curr_ptr->next;
-            cout << endl << "Bottom of print_views while loop" << endl;
         } 
 
-        cout << "Movie " << target_id << " has been watched " << count << "time(s)." << endl;      
+        cout << "Movie " << target_id << " has been watched " << count << " time(s)." << endl;      
 
     }
 
@@ -155,8 +150,6 @@ class linked_list_customers : public linked_list<customer*>{
                     i = 0;
                 }
             }
-
-
         }
     }
 
@@ -174,7 +167,6 @@ int main(int argc, char** argv){
 
     clients.print_all();
     clients.print_customer(724);
-    cout << endl << "between customer and view" << endl;
     clients.print_views(109); 
 
     return 0;
