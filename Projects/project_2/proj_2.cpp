@@ -38,13 +38,11 @@ class customer{
     void display(){
         // WRITE CODE TO DISPLAY THE CUSTOMER AND MOVIES
     }
-
 };
 
 // note this a linked list of POINTERS to customers...
 // that way you only every make one copy of each customer
 // and simply place a pointer to that customer in the linked list
-
 class linked_list_customers : public linked_list<customer*>{
 
     public:
@@ -62,18 +60,36 @@ class linked_list_customers : public linked_list<customer*>{
     }
 
     void load_customers(string filename){
-
-        /*
-        This code might be useful:
+        // Load in file line by line
         ifstream    file_id(filename);
-        string line
+        string line;
         int value;
-        while (getline(file_id,line))
-            value = stoi(line)          
-        */
+        bool cust_id = true;
+        bool movie_count = false;
+        int line_count = 0;
+        while (getline(file_id,line)){
+            value = stoi(line); 
+            if (cust_id == true) {
+                customer *temp;
+                linked_list::insert(temp);
+                cust_id = false;
+                movie_count = true;
+            }
+            else if (movie_count == true) {
+                line_count = value;
+                for (int i = 0; i < line_count; i++){
+                    getline(file_id, line);
+                    value = stoi(line);
+                }
+                movie_count = false;
+                cust_id = true;
 
+
+            }
+
+
+        }         
     }
-
 };
 
 
