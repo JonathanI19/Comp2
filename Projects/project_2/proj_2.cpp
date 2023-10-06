@@ -91,8 +91,8 @@ class linked_list_customers : public linked_list<customer*>{
         node* temp = head;
         while (temp != nullptr) {
             head = temp->next;
-            delete temp;
             delete temp->data;
+            delete temp;
             temp = head;
             
         }
