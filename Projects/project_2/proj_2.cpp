@@ -5,7 +5,7 @@
 using namespace std;
 
 #define DEFAULT_DIRECTORY "/data/courses/ece_3822/current/project_2/"
-#define DEFAULT_FILENAME "dataFile1.txt"
+#define DEFAULT_FILENAME "dataFile3.txt"
 
 // do not edit
 string get_filename(int argc, char** argv){
@@ -56,7 +56,6 @@ class linked_list_movies : public linked_list<int>{
                 watched = true;
             }
 
-            // FUCK THIS LINE IN PARTICULAR!!!!!!
             curr_ptr = curr_ptr->next;
         }
         return watched;
@@ -216,7 +215,7 @@ int main(int argc, char** argv){
 
     clients.print_all();
     clients.print_customer(724);
-    clients.print_views(109); 
+    clients.print_views(643); 
 
     return 0;
 }
