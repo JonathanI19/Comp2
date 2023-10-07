@@ -25,6 +25,7 @@ string get_filename(int argc, char** argv){
 class linked_list_movies : public linked_list<int>{
     public:
 
+    /// @brief Destructor for linked_list_movies
     ~linked_list_movies() {
         node* temp = head;
         while (temp != nullptr) {
@@ -34,6 +35,7 @@ class linked_list_movies : public linked_list<int>{
         }
     }
 
+    /// @brief Displays movie IDs within current linked list
     void display(){
         node* curr_ptr = head;
         while (curr_ptr != nullptr) {
@@ -43,6 +45,9 @@ class linked_list_movies : public linked_list<int>{
         return;
     }
 
+    /// @brief Checks to see if a movie has been watched within LL of movie IDs
+    /// @param target_movie (int): ID of movie to be searched for
+    /// @return (bool): true if watched; false if not watched
     bool has_watched(int target_movie) {
         bool watched = false;
         node* curr_ptr = head;
@@ -50,43 +55,47 @@ class linked_list_movies : public linked_list<int>{
             if (curr_ptr->data == target_movie) {
                 watched = true;
             }
-            curr_ptr = curr_ptr->next; // FUCK THIS LINE IN PARTICULAR
+
+            // FUCK THIS LINE IN PARTICULAR!!!!!!
+            curr_ptr = curr_ptr->next;
         }
         return watched;
     }
 };
 
+/// @brief customer class
 class customer{
     public:
 
     int customer_id;
     linked_list_movies movie_ids;    
 
-    // Constructor
+    /// @brief constructor
+    /// @param id (int): Customer ID
+    /// @param arr (vector<int>): Movie IDs watched by customer
     customer(int id, vector<int> arr){
         customer_id = id;
+
+        // Insert movie IDs from vector into Movie LL
         for(int i = 0; i < arr.size(); i++){
             movie_ids.insert(arr.at(i));
         }
     }
 
+    /// @brief Displays customer ID and movie IDs for specific customer object
     void display(){
         cout << "Customer " << customer_id << " watched";
         movie_ids.display();
         cout << endl;
         return;
     }
-
 };
 
-// note this a linked list of POINTERS to customers...
-// that way you only every make one copy of each customer
-// and simply place a pointer to that customer in the linked list
-
+/// @brief Linked List of Pointers to customer objects
 class linked_list_customers : public linked_list<customer*>{
 
     public:
-
+    /// @brief Destructor to deallocate memory
     ~linked_list_customers() {
         node* temp = head;
         while (temp != nullptr) {
@@ -94,12 +103,17 @@ class linked_list_customers : public linked_list<customer*>{
             delete temp->data;
             delete temp;
             temp = head;
-            
         }
     }
+
+    /// @brief Seeks out customer ID and prints relevant info
+    /// @param target_id (int): Customer ID
     void print_customer(int target_id){
         node* curr_ptr = head;
+
         while (curr_ptr != nullptr) {
+        
+            // if IDs match, display data
             if (curr_ptr->data->customer_id == target_id) {
                 curr_ptr->data->display();
             }
@@ -108,18 +122,22 @@ class linked_list_customers : public linked_list<customer*>{
 
     }
 
+    /// @brief Prints all customer data, alongside movies watched
     void print_all(){
         node* curr_ptr = head;
+
         while (curr_ptr != nullptr) {
             curr_ptr->data->display();
-
             curr_ptr = curr_ptr->next;
         }
     }
 
+    /// @brief Prints views for specified movie
+    /// @param target_id (int): Movie ID
     void print_views(int target_id){
         int count = 0;
         node* curr_ptr = head;
+
         while (curr_ptr != nullptr) {
             if (curr_ptr->data->movie_ids.has_watched(target_id)) {
                 count ++;
@@ -127,15 +145,18 @@ class linked_list_customers : public linked_list<customer*>{
             curr_ptr = curr_ptr->next;
         } 
 
-        cout << "Movie " << target_id << " has been watched " << count << " time(s)." << endl;      
-
+        // Formatted output
+        cout << "Movie " << target_id << " has been watched " << count << " time(s)." << endl;
     }
 
+    /// @brief Loads customers from text file into linked lists/customer pointers
+    /// @param filename (string): Filename
     void load_customers(string filename){
 
+        // Opening file input stream
+        ifstream file_id(filename);
         
-        //This code might be useful:
-        ifstream    file_id(filename);
+        // Variable declarations
         string line;
         int value;
         bool cust_id = true;
@@ -145,22 +166,32 @@ class linked_list_customers : public linked_list<customer*>{
         int c_id;
         vector<int> movies;
 
+        // Executes while new lines can be read in
         while (getline(file_id,line)){
-            
+
+            // Converts text data into integer
             value = stoi(line);          
+
+            // Reads in customer ID
             if (cust_id == true) {
                 c_id = value;
                 cust_id = false;
                 movie_count = true;
             }
+
+            // Reads in movie count
             else if (movie_count == true) {
                 count = value;
                 movie_count = false;
             }
+
+            // Reads in movie IDs as long as count hasn't been reached
             else if (i < count) {
                 movies.push_back(value);
                 i++;    
                 
+                // Inserts customer pointer with data into linked list when all
+                // movie data has been read in
                 if (i == count) {
                     customer* temp = new customer(c_id, movies);
                     this->insert(temp);
@@ -171,7 +202,6 @@ class linked_list_customers : public linked_list<customer*>{
             }
         }
     }
-
 };
 
 
