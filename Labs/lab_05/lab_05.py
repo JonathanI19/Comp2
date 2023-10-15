@@ -97,11 +97,37 @@ class tree:
         if (curr_node == None):
             return
 
-        # YOUR CODE HERE     
-        curr_l, curr_r = 0
+        # YOUR CODE HERE    
         
-        curr_l = curr_node.get_left()
-        curr_r = curr_node.get_right()
+        # If curr_node is not Null, this conditional executes
+        # The following code utilizes recursion to step through a binary tree
+        if (curr_node):
+            
+            # Set curr_l and curr_r to next nodes (Null if empty)
+            curr_l = curr_node.get_left()
+            curr_r = curr_node.get_right()
+            
+            # Increase cnt_2 if both nodes exist
+            if (curr_l is not None and curr_r is not None):
+                self.cnt_2 += 1
+                
+            # If a left node exists, go into it
+            # cnt_1 only increases if a right node doesn't exist
+            if (curr_l is not None):
+                if (curr_r is None):
+                    self.cnt_1 += 1
+                self.count(curr_l)
+                
+            # If a right node exists, go into it
+            # cnt_1 only increases if a left node doesn't exist
+            if (curr_r is not None):
+                if (curr_l is None):
+                    self.cnt_1 += 1
+                self.count(curr_r)
+                
+            # If no child nodes exist, increase cnt_0
+            if (curr_r is None and curr_l is None):
+                self.cnt_0 +=1
 
     def print_count(self):
         print("Nodes with 0 children: " , self.cnt_0)
