@@ -59,7 +59,14 @@ class hash_table:
     # look up a student in the hash table by, 'student' or 'first' and 'last'
     def lookup(self,last,first,display=False):
         target_student = None
-        
+
+        ###########################
+        # ADD COMMENTS HERE
+        index = self.hash_function(last=last, first=first)
+        if (self.buffer[index] is not None):
+            target_student=self.buffer[index]
+        ###########################
+
         # display results if user requests it
         if display: 
             print("\n")
