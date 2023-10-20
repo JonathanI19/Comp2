@@ -44,28 +44,48 @@ class hash_table:
         # concatenate the names
         total_name = last+first
 
+        # Make total_name case insensitive by setting all chars to their Uppercase version
+        total_name = total_name.upper()
+
         s = 0
-        for c in total_name:
-            s += ord(c)         # ord(c) converts c into ascii value
+        for count, char in enumerate(total_name):
+            
+            # Makes it start at 1
+            i = count+1
+            
+            # ord(char) converts char into ascii value
+            # This equation takes the square of index+1 and multiplies it by
+            # the ascii value of the char
+            # This should act as a basic method of making the rudimentary hash-function
+            # sensitive to the order of the characters.
+            s += ((i*i)*ord(char))         
         
+        # Calculate and return index
         index = s % self.buff_len
         return index
     
     # insert student into buffer
     def insert(self,std):
         index = self.hash_function(std=std)
-        self.buffer[index] = std
+        
+        # Only inserts student if index is empty
+        if self.buffer[index] is None:
+            self.buffer[index] = std
+            
+        # Executes if index is not empty
+        else:
+            print("INDEX: ", index, " Is currently occupied.")
 
     # look up a student in the hash table by, 'student' or 'first' and 'last'
     def lookup(self,last,first,display=False):
         target_student = None
 
-        ###########################
-        # ADD COMMENTS HERE
+        # Find index from last and first name
         index = self.hash_function(last=last, first=first)
+        
+        # If location of index is populated in buffer, set target_student to equal that object
         if (self.buffer[index] is not None):
             target_student=self.buffer[index]
-        ###########################
 
         # display results if user requests it
         if display: 
@@ -92,14 +112,17 @@ class hash_table:
 def main():
 
     # create the hash table
-    my_table = hash_table(buff_len = 15)
+    # A larger buff_len means less chance of coincidental collisions
+    my_table = hash_table(buff_len = 30)
 
     # create two new students and insert them into the hash table
     my_table.insert( student( "Obeid" , "Iyad" , 19143 , 3.99) )
     my_table.insert( student( "Obeid" , "Timmy", 19147 , 3.14) )
-
+    my_table.insert( student( "OBEID", "TIMMwY", 19147 , 3.14))
+    my_table.insert( student( "diebO" , "Timmy", 19147 , 3.14) )
     # look up a student and display results
     my_table.lookup("Obeid","Iyad",display=True)
+    my_table.lookup("bob", "thebuilder", display = True)
 
     # display contents of hash table
     my_table.display()
