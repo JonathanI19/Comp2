@@ -1,4 +1,4 @@
-Introduction
+# Introduction
 
 Imagine a situation where you are receiving transmitted data packets of
 information about students, and that the packets arrive at irregular intervals.
@@ -21,19 +21,20 @@ one student packet from the queue, hash it, and store it in the hash table.
 Finally, you will demonstrate that your code works by looking up some students
 by their student ID.
 
-The Details
+## The Details
 
 Here are the specific steps you will need to implement:
 
-[1] create a class named "student" that stores the fields for each student [2]
-create a queue (many ways to implement this, but feel free to use the super
-easy vector approach) [3] push each student's object into the queue [4]
-implement a hashing function that hashes the student ID number [5] pop students
-off the queue and place them into the hash table appropriately [6] implement a
-function that will look up students in the hash table and print out their
+1. create a class named "student" that stores the fields for each student
+2. create a queue (many ways to implement this, but feel free to use the super
+easy vector approach)
+3. push each student's object into the queue
+4. implement a hashing function that hashes the student ID number
+5. pop students off the queue and place them into the hash table appropriately
+6. implement a function that will look up students in the hash table and print out their
 information
 
-The Hints
+## The Hints
 
 Items 1-3 are meant to be simple
 
