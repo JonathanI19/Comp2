@@ -28,12 +28,27 @@ using namespace std;
 using namespace std::chrono;
 
 
-/// @brief Student Struct
-struct student{
+// /// @brief Student Struct
+// struct student{
 
+//     string first_name, last_name, major;
+//     float gpa;
+//     int ID;
+// };
+
+class student{
+    public:
     string first_name, last_name, major;
     float gpa;
     int ID;
+
+    student(string f = "", string l = "", string m = "", float g = 0.0, int i = 0){
+        first_name = f;
+        last_name = l;
+        major = m;
+        gpa = g;
+        ID = i;
+    }
 };
 
 // YOUR CODE HERE
@@ -62,7 +77,8 @@ class hashTable{
 
         // Multiply buff_len by fractional part and round down.
         int val = floor((float)buff_len * k);
-        return val; 
+
+        return (int)val; 
     }
 
     /// @brief Called by insert to verify no collisions are occurring
@@ -105,6 +121,18 @@ class hashTable{
         for (int i = 0; i < buff_len; i++){
             buffer[i] = nullptr;
         }
+    }
+
+    ~hashTable() {
+    
+        for (int i = 0; i < buff_len; i++){
+            student* temp;
+            if (buffer[i] != nullptr) {
+                temp = buffer[i];
+                delete temp;
+            }
+        }
+
     }
 
     /// @brief Method to insert student pointer into hash table
@@ -180,7 +208,7 @@ class queue{
 
     /// @brief Pop student pointer off front of queue
     /// @return (student*) Pointer to student object
-    student* pop(){
+    student pop(){
 
         temp = student_queue.front();
         student_queue.pop_front();
@@ -188,7 +216,8 @@ class queue{
         if (num_elements == 0) {
             isEmpty = true;
         }
-        return temp;
+        cout << "returning pop" << endl;
+        return *temp;
     }
 
     /// @brief Checks to see if queue is empty
@@ -214,14 +243,20 @@ float t_elapsed(){
 
 void process_input_data(){
     student* p_student;
-
+    cout << "In process_input_data" << endl;
     while (!stop_thread){
         queue_mutex.lock();
 
         // If queue is not empty, pop student off of queue and insert into hash table
-        if(!waiting_list.is_empty()){
-            p_student = waiting_list.pop();
+        if(waiting_list.is_empty() == false){
+            cout << "in conditional" << endl;
+            *p_student = waiting_list.pop();
+            cout << "pop waiting list" << endl;
+            cout << p_student->ID;
+            cout << "Pre insert" << endl;
             student_db.insert(p_student);
+
+            cout << "post insert" << endl;
         }
 
         queue_mutex.unlock();
@@ -229,6 +264,7 @@ void process_input_data(){
 }
 
 void load_data(string filename){
+
     string shared_path = "/data/courses/ece_3822/current/project_3/";
     string filename_complete = shared_path + filename;
 
@@ -245,6 +281,7 @@ void load_data(string filename){
     thread thr(process_input_data);
 
     clock_t t_start = clock();
+
     while (f_id >> arrival_time){
         // read data for the next person in the file
         f_id >> first;
@@ -253,28 +290,35 @@ void load_data(string filename){
         f_id >> id;
         f_id >> major;
 
+        cout << "Pre waiting for data packet" << endl;
         // wait until their data packet has 'arrived'
         while ( t_elapsed() < arrival_time){
             ;
         }
+        cout << "Post waiting for data packet" << endl;
 
         // Create new student object from struct
-        student temp_student;
-        temp_student.first_name = first;
-        temp_student.last_name = last;
-        temp_student.gpa = gpa;
-        temp_student.ID = id;
-        temp_student.major = major;
+        // student temp_student;
+        // temp_student.first_name = first;
+        // temp_student.last_name = last;
+        // temp_student.gpa = gpa;
+        // temp_student.ID = id;
+        // temp_student.major = major;
         
         // Generate pointer to student and allocate on heap
-        student *p_student = &temp_student;
-        new(p_student) student;
+        cout << "Pre allocation" << endl;
+        // student *p_student = &temp_student;
+        // new(p_student) student;
 
+        student* p_student = new student(first, last, major, gpa, id);
+
+        cout << "Post allocation" << endl;
 
         queue_mutex.lock();
-
+        cout << "test";
         // YOUR CODE HERE
         waiting_list.insert(p_student);
+        cout << "Insert" << endl;
 
         queue_mutex.unlock();
 
@@ -303,7 +347,6 @@ int main(int argc, char** argv){
         case 1: filename = "student_data_medium.txt"; break;
         case 2: filename = "student_data.txt"; break;
     }
-
     load_data(filename);
 
     // now that the data has been stored in the hash table, lets test hashtable lookup
