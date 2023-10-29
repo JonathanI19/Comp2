@@ -34,6 +34,14 @@ struct student{
     string first_name, last_name, major;
     float gpa;
     int ID;
+    student(string f = "", string l = "", float g = 0.0, int num = 0, string m = "")
+    {
+        first_name = f;
+        last_name = l;
+        gpa = g;
+        ID = num;
+        major = m;
+    }
 };
 
 // class student{
@@ -68,17 +76,15 @@ class hashTable{
     /// @return (int) Computed Hash Key
     int hash_function(int id){
 
-        // Fractional value between 0 and 1
-        float c = 0.458762346;
+        u_int64_t sum = 0;
+        int idx;
 
-        // Get fractional part of id*c
-        float k = (float)id*c;
-        k = k-(long)k;
-
-        // Multiply buff_len by fractional part and round down.
-        int val = floor((float)buff_len * k);
-
-        return (int)val; 
+        sum = id*id*id;
+        
+        // guarantee that idx is between 0 and buff_len-1
+        idx = sum % buff_len;
+        // return index derived from id number
+        return idx;  
     }
 
     /// @brief Called by insert to verify no collisions are occurring
@@ -89,6 +95,7 @@ class hashTable{
 
         if (buffer[key].ID == 0){
             buffer[key] = s;
+            return;
         }
         else {
             while(buffer[key].ID != 0){
@@ -121,7 +128,6 @@ class hashTable{
     /// @brief Method to insert student pointer into hash table
     /// @param s (student*) Pointer to student object
     void insert(student s){
-        
         // Error handling for if hash table is full
         if (num_elements == buff_len) {
             cout << "Hash Table Full" << endl;
@@ -146,13 +152,13 @@ class hashTable{
 
         while(true){
             if (buffer[key].ID == ID){
+                temp = buffer[key];
                 break;
             }
-            else if (buffer[key].ID != ID) {
+            else if (buffer[key].ID != ID && buffer[key].ID != 0) {
                 key = (key + 1) % buff_len;
             }
-            else if (buffer[key].ID == ID) {
-                temp = buffer[key];
+            else {
                 break;
             }
         }
@@ -172,44 +178,34 @@ class queue{
     deque<student> student_queue;
     int num_elements;
     bool isEmpty;
-    student temp;
 
     public:
     /// @brief Constructor
     queue(){
         num_elements = 0;
-        bool isEmpty = true;
     }
 
     /// @brief Insert pointer to student object into queue
     /// @param t (student*) Pointer to student object
     void insert(student t){
-        cout << "pre push back" << endl;
         student_queue.push_back(t);
-        cout << "in insert: " << t.ID << endl;
         num_elements++;
-        isEmpty = false;
     }
 
     /// @brief Pop student pointer off front of queue
     /// @return (student*) Pointer to student object
     student pop(){
-
-        temp = student_queue.front();
-        cout << "pop id: " << temp.ID << endl;
+      
+        student temp = student_queue.front();
         student_queue.pop_front();
         num_elements--;
-        if (num_elements == 0) {
-            isEmpty = true;
-        }
-        cout << "returning pop" << endl;
         return temp;
     }
 
     /// @brief Checks to see if queue is empty
     /// @return (bool) True if empty; False if populated with data
     bool is_empty(){
-        return isEmpty;
+        return (num_elements==0);
     }
 
 };
@@ -229,20 +225,13 @@ float t_elapsed(){
 
 void process_input_data(){
     student p_student;
-    cout << "In process_input_data" << endl;
     while (!stop_thread){
         queue_mutex.lock();
 
         // If queue is not empty, pop student off of queue and insert into hash table
         if(waiting_list.is_empty() == false){
-            cout << "in conditional" << endl;
             p_student = waiting_list.pop();
-            cout << "pop waiting list" << endl;
-            cout << p_student.ID;
-            cout << "Pre insert" << endl;
             student_db.insert(p_student);
-
-            cout << "post insert" << endl;
         }
 
         queue_mutex.unlock();
@@ -276,12 +265,10 @@ void load_data(string filename){
         f_id >> id;
         f_id >> major;
 
-        cout << "Pre waiting for data packet" << endl;
         // wait until their data packet has 'arrived'
         while ( t_elapsed() < arrival_time){
             ;
         }
-        cout << "Post waiting for data packet" << endl;
 
         // Create new student object from struct
         student temp_student;
@@ -300,10 +287,8 @@ void load_data(string filename){
 
 
         queue_mutex.lock();
-        cout << "test" << endl;;
         // YOUR CODE HERE
         waiting_list.insert(temp_student);
-        cout << "Insert" << endl;
 
         queue_mutex.unlock();
 
@@ -314,7 +299,6 @@ void load_data(string filename){
     while (!waiting_list.is_empty()){   // wait for the waiting_list queue
         ;                               // to empty out before stopping the 
     }                                   // process_input_data thread
-
     stop_thread = true;                 // send a signal to the thread to stop running
     thr.join();                         // wait for the thread to finish up
 }
@@ -342,6 +326,9 @@ int main(int argc, char** argv){
     student_db.search(427980112);
     student_db.search(258399712);
     student_db.search(948140115);
+    student_db.search(664629914);
+    student_db.search(852580016);
+    student_db.search(124599717);
 
     // search for the following student IDs
     // 427980112
