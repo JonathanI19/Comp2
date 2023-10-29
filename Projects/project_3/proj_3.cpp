@@ -28,28 +28,28 @@ using namespace std;
 using namespace std::chrono;
 
 
-// /// @brief Student Struct
-// struct student{
+/// @brief Student Struct
+struct student{
 
-//     string first_name, last_name, major;
-//     float gpa;
-//     int ID;
-// };
-
-class student{
-    public:
     string first_name, last_name, major;
     float gpa;
     int ID;
-
-    student(string f = "", string l = "", string m = "", float g = 0.0, int i = 0){
-        first_name = f;
-        last_name = l;
-        major = m;
-        gpa = g;
-        ID = i;
-    }
 };
+
+// class student{
+//     public:
+//     string first_name, last_name, major;
+//     float gpa;
+//     int ID;
+
+//     student(string f = "", string l = "", string m = "", float g = 0.0, int i = 0){
+//         first_name = f;
+//         last_name = l;
+//         major = m;
+//         gpa = g;
+//         ID = i;
+//     }
+// };
 
 // YOUR CODE HERE
 class hashTable{
@@ -184,7 +184,9 @@ class queue{
     /// @brief Insert pointer to student object into queue
     /// @param t (student*) Pointer to student object
     void insert(student t){
+        cout << "pre push back" << endl;
         student_queue.push_back(t);
+        cout << "in insert: " << t.ID << endl;
         num_elements++;
         isEmpty = false;
     }
@@ -194,6 +196,7 @@ class queue{
     student pop(){
 
         temp = student_queue.front();
+        cout << "pop id: " << temp.ID << endl;
         student_queue.pop_front();
         num_elements--;
         if (num_elements == 0) {
@@ -289,16 +292,15 @@ void load_data(string filename){
         temp_student.major = major;
         
         // Generate pointer to student and allocate on heap
-        cout << "Pre allocation" << endl;
         // student *p_student = &temp_student;
         // new(p_student) student;
 
         // student* p_student = new student(first, last, major, gpa, id);
 
-        cout << "Post allocation" << endl;
+
 
         queue_mutex.lock();
-        cout << "test";
+        cout << "test" << endl;;
         // YOUR CODE HERE
         waiting_list.insert(temp_student);
         cout << "Insert" << endl;
