@@ -61,15 +61,17 @@ class hashTable{
     /// @return (int) Computed Hash Key
     int hash_function(int id){
 
-        u_int64_t sum = 0;
-        int idx;
+        u_int64_t val = 0;
+        u_int64_t idx = id;
 
-        sum = id*id*id;
-        
+        val = id*id*id;
+        for (int i = 0; i < 9; i++){
+            idx = idx * (idx%10);
+        }
         // guarantee that idx is between 0 and buff_len-1
-        idx = sum % buff_len;
+        val = idx % buff_len;
         // return index derived from id number
-        return idx;  
+        return val;  
     }
 
     /// @brief Private: Called by insert to verify no collisions are occurring
