@@ -137,7 +137,25 @@ class hash_table_id (hash_table_base):
 
 class db:
     '''database class that holds and manages multiple hash tables'''
-    pass
+    
+    def __init__(self):
+        self.table_f_name = hash_table_firstname()
+        self.table_l_name = hash_table_lastname()
+        self.table_id = hash_table_id()
+    
+    def insert(self, s):
+        self.table_f_name.insert(s)
+        self.table_l_name.insert(s)
+        self.table_id.insert(s)
+        
+    def lookup(self,last = ""):
+        return self.table_l_name.lookup(last, disp=True)
+        
+    def lookup_first(self, first = ""):
+        return self.table_f_name.lookup(first, disp=True)
+    
+    def lookup_id(self, id):
+        return self.table_id.lookup(id, disp=True)
 
 def test_case_1():
     '''Test Case 1: test individual hash tables'''
