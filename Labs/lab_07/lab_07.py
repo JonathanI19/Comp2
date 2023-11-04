@@ -110,23 +110,30 @@ class hash_table_lastname (hash_table_base):
     '''hash table of students organized by last name'''
 
     def hash_function(self, item=None, hash_item=None):
-        # YOUR CODE HERE
-        return
+        if hash_item is None:
+            hash_item = item.lastname
+        s = 0
+        for ch in hash_item:
+            s += ord(ch)
+        return s%self.array_len
 
     def lookup(self, target=None, disp=False):
-        # YOUR CODE HERE
-        return
+        key = self.hash_function(hash_item=target)
+        return self.buffer[key].lookup(target,"lastname",disp)
 
 class hash_table_id (hash_table_base):
     '''hash table of students organized by id number'''
     
     def hash_function(self, item=None, hash_item=None):
-        # YOUR CODE HERE
-        return
+        if hash_item is None:
+            hash_item = item.id
+        # Multiply by large prime num    
+        s = hash_item * 6700417
+        return s%self.array_len
 
     def lookup(self, target=None, disp=False):
-        # YOUR CODE HERE
-        return
+        key = self.hash_function(hash_item=target)
+        return self.buffer[key].lookup(target,"id",disp)
 
 class db:
     '''database class that holds and manages multiple hash tables'''
