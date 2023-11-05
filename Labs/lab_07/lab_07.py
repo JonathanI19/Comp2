@@ -94,14 +94,18 @@ class hash_table_firstname (hash_table_base):
     inherits <hash_table_base>
     '''
     
+    # Determine key
     def hash_function(self, item=None, hash_item=None):
         if hash_item is None:
             hash_item = item.firstname
         s = 0
+        
+        # Based on ascii values for each char
         for ch in hash_item:
             s += ord(ch)
         return s%self.array_len
 
+    # Lookup via first name
     def lookup(self, target=None, disp=False):
         key = self.hash_function(hash_item=target)
         return self.buffer[key].lookup(target,"firstname",disp)
@@ -109,14 +113,18 @@ class hash_table_firstname (hash_table_base):
 class hash_table_lastname (hash_table_base):
     '''hash table of students organized by last name'''
 
+    # Determine key
     def hash_function(self, item=None, hash_item=None):
         if hash_item is None:
             hash_item = item.lastname
         s = 0
+        
+        # Based on ascii values of each char
         for ch in hash_item:
             s += ord(ch)
         return s%self.array_len
 
+    # Lookup via last name
     def lookup(self, target=None, disp=False):
         key = self.hash_function(hash_item=target)
         return self.buffer[key].lookup(target,"lastname",disp)
@@ -124,13 +132,16 @@ class hash_table_lastname (hash_table_base):
 class hash_table_id (hash_table_base):
     '''hash table of students organized by id number'''
     
+    # Determine key
     def hash_function(self, item=None, hash_item=None):
         if hash_item is None:
             hash_item = item.id
+            
         # Multiply by large prime num    
         s = hash_item * 6700417
         return s%self.array_len
 
+    # Lookup via ID
     def lookup(self, target=None, disp=False):
         key = self.hash_function(hash_item=target)
         return self.buffer[key].lookup(target,"id",disp)
@@ -138,17 +149,21 @@ class hash_table_id (hash_table_base):
 class db:
     '''database class that holds and manages multiple hash tables'''
     
+    # Create hash tables in constructor
     def __init__(self):
         self.table_f_name = hash_table_firstname()
         self.table_l_name = hash_table_lastname()
         self.table_id = hash_table_id()
     
+    # Insert student object into each hash table
     def insert(self, s):
         self.table_f_name.insert(s)
         self.table_l_name.insert(s)
         self.table_id.insert(s)
         
-    def lookup(self,last = ""):
+    # Lookup student objects based from relevant hash tables
+    # NOTE: lookup_last() was originally lookup() in given code; name was changed for readability
+    def lookup_last(self,last = ""):
         return self.table_l_name.lookup(last, disp=True)
         
     def lookup_first(self, first = ""):
@@ -209,7 +224,7 @@ def test_case_2():
     my_db.insert( student( "Jeff" , "Smith" , 456 , "ME"      ) )
     my_db.insert( student( "Jeff" , "Bezos" , 492 , "CompSci" ) )
 
-    my_db.lookup(last="Smith")
+    my_db.lookup_last(last="Smith")
     my_db.lookup_first(first="Bob")
     my_db.lookup_id(id=989)
 
