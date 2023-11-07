@@ -46,6 +46,36 @@ def are_connected(graph:list, src:int , dst:int , disp:bool=False) ->bool:
 
     # YOUR CODE HERE
     
+    # Create visited list and handled dictionary
+    # dictionary is for simplified search of keys
+    visited = [src]
+    handled = {}
+    
+    # Runs until connection to dst is found or we run out of available nodes on path
+    while(len(visited) > 0):
+        
+        # Pop value off front of list and add to handled dictionary
+        curr = visited.pop(0)
+        handled[curr] = True
+        
+        # Break out of loop if connection found
+        if(curr == dst):
+            connected = True
+            break
+        
+        # Append non-handled nodes to visited list for checking later
+        for i in range(len(graph)):
+            if(graph[i][curr] == 1):
+                
+                # Break out of loop if connection found
+                if (i == dst):
+                    connected = True
+                    break
+                
+                # Append to visited if not already handled
+                if (i) not in handled:
+                    visited.append(i)
+
 
     if disp:
         print(f"Node {src} {'is' if connected else 'isn''t'} connected to Node {dst}")
@@ -102,7 +132,6 @@ def main():
 
     opt , src , dst = get_opts()
     graph = load_graph(opt)
-    print(graph[0][0])
     display(graph)
     are_connected(graph,src,dst,True)
 
