@@ -73,7 +73,7 @@ def are_connected(graph:list, src:int , dst:int , disp:bool=False) ->bool:
                     break
                 
                 # Append to visited if not already handled
-                if (i) not in handled:
+                if (i not in handled):
                     visited.append(i)
 
 
