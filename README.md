@@ -69,7 +69,7 @@ size()          // returns the number of nodes in the list
 sum()           // returns the sum of the data in the list
 is_empty()      // returns true if the list is empty, otherwise false
 
-### Lab 5
+### Lab 5 (9/10)
 The goal of this lab is to analyze a binary tree and count how many nodes have zero, one, or two valid children. Use the attached code as template. You should only edit the "count()" function.
 
 ### Lab 6
@@ -95,6 +95,18 @@ until you find an empty spot.
 
 Make sure to include enough test code in main() to demonstrate
 that items [1]-[3] are working properly
+
+### Lab 7
+In this lab, you will use the concepts of class inheritance to create hash_tables that store student objects by:
+
+1. Last name
+2. First name
+3. ID
+
+You will also generate a db class that automates this process for all 3 hash tables.
+
+### Lab 8
+The purpose of this lab is to complete the <are_connected> function that returns "True" if there is a path from src to dst and "False" otherwise. This includes indirect paths! If there is no direct connection between Nodes 0 and 3, but you can get from 0 to 3 by passing through Nodes 1 and 2 then your code should return True.
 
 
 ## Project Overview
@@ -156,3 +168,6 @@ Customer 724 watched 225, 502, 109
 clients.print_views(movieID) - prints the number of customers who watched a movie
 
 Movie 109 was watched 2 time(s)
+
+### Project 3
+In this project we will simulate incoming data packets with a text file that contains packet information and the packet arrival time. The code automatically inserts a time delay to simulate the packet's arrival time. While you are reading data into the queue, a separate thread will be simultaneously running.  This thread will be constantly checking the queue. If the queue contains data, then you will pop one student packet from the queue, hash it, and store it in the hash table.
