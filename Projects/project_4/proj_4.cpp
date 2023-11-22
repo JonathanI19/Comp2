@@ -1,14 +1,19 @@
 #include <iostream>
 #include <fstream>
+#include "./util.h"
+#include <vector>
+#include "./hash_table.cpp"
+#include "./binary_tree.cpp"
 
 using namespace std;
 
-void sample_load_function(){
-    
-    string filename_complete = "/data/courses/ece_3822/current/project_4/songlist.txt";
+hashTable tracklist;
+binaryTree<song> setlist;
+
+void load_hash(string file_name) {
 
     ifstream f_id;
-    f_id.open(filename_complete,ios_base::in);
+    f_id.open(file_name, ios_base::in);
 
     string line;
     string band_name;
@@ -18,27 +23,72 @@ void sample_load_function(){
 
     while(getline(f_id,line)){
 
-        // "line" is one complete line from the text file
-
-        // find the comma, which separates band name from song
+        // split at comma (separates band name and song name)
         i_split = line.find(',');
 
-        //extract bandname and songname
-        band_name = line.substr(0,i_split);         // band name is everything up till the comma
-        line.erase(0,i_split+2);                    // erase band name plus comma, plus space
-        song_title = line.substr(0, line.size()-1); // erase the carriage return at the end
+        // Extract details from line
+        band_name = line.substr(0,i_split);
+        line.erase(0,i_split+2);
+        song_title = line.substr(0,line.size()-1);
+        song s(band_name, song_title);
 
-        // check to make sure it worked
-        cout << band_name << " <<- " << song_title << endl;
-    	cout << song_title << " <<- " << band_name << endl;
+        tracklist.insert(s);
     }
     f_id.close();
 
+    return;
 }
+
+void search_hash(string file_name){
+    ifstream f_id;
+    f_id.open(file_name, ios_base::in);
+
+    string line;
+    string band_name;
+    string song_title;
+
+    int i_split;
+
+    while(getline(f_id,line)){
+
+        i_split = line.find(',');
+        band_name = line.substr(0, i_split);
+        line.erase(0,i_split+2);
+        song_title = line.substr(0, line.size()-1);
+        tracklist.lookup(band_name, song_title, true);
+    }
+    f_id.close();
+}
+
+void load_bst(string file_name) {
+    ifstream f_id;
+    f_id.open(file_name, ios_base::in);
+
+    string line;
+    string band_name;
+    string song_title;
+    int i_split;
+
+    while(getline(f_id,line)){
+        i_split = line.find(',');
+        band_name = line.substr(0, i_split);
+        line.erase(0,i_split+2);
+        song_title = line.substr(0, line.size()-1);
+        song s(band_name, song_title);
+        
+    }
+}
+
 
 int main(){
 
-    sample_load_function();
+    string file_name = "/data/courses/ece_3822/current/project_4/songlist.txt";
+
+    load_hash(file_name);
+    search_hash(file_name);
+
+    load_bst(file_name);
+
 
     return 0;
 }
