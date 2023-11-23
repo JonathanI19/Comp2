@@ -3,16 +3,24 @@
 #include <iostream>
 #include <fstream>
 
-template<typename T>
-
-class binaryTree{
+/// @brief Binary tree class
+class binaryTree {
 
     protected:
+
+    /// @brief Node class
     class node{
         public:
-        vector<T> data;
+        // Each node contains a vector member
+        vector<song> data;
+
+        // pointers to other nodes
         node *left, *right, *up;   
+
+        /// @brief Constructor
         node(){
+
+            // Set all values to nullptr to start
             left  = nullptr;
             right = nullptr;
             up    = nullptr;
@@ -22,15 +30,39 @@ class binaryTree{
 
     node *root;
     int nNodes;
+    int traversals;
 
     public:
-    // constructor - no parameters
+
+    /// @brief Constructor
     binaryTree(){
         root   = nullptr;
         nNodes = 0;
+        traversals = 0;
+    }
+
+    /// @brief Destructor
+    ~binaryTree(){
+
+        // Call destroy function
+        destroy(root);
     }    
 
-    void insert(T d){
+    /// @brief Getter for nNodes
+    /// @return (int) Number of nodes in BST
+    int get_nNodes(){
+        return nNodes;
+    }
+
+    /// @brief Getter for traversal count
+    /// @return (int) Number of traversals done in search
+    int get_traversals() {
+        return traversals;
+    }
+
+    /// @brief Function to insert data into BST
+    /// @param d (song) Song data
+    void insert(song d){
 
         int key = hash_function(d.artist, d.name);
         
@@ -45,6 +77,7 @@ class binaryTree{
         if (nNodes == 0) {
             root=newNode;
             root->data.push_back(d);
+            nNodes++;
         }
 
         else{
@@ -75,10 +108,12 @@ class binaryTree{
             if (LR==0) {
                 parentPtr->left = newNode;
                 newNode->data.push_back(d);
+                nNodes++;
             }
             else if (LR==1) {
                 parentPtr->right = newNode;
                 newNode->data.push_back(d);
+                nNodes++;
             }
             else {
                 currPtr->data.push_back(d);
@@ -87,18 +122,20 @@ class binaryTree{
 
         }
 
-        // increment number of nodes
-        nNodes++;
-
     }
 
-    T lookup (string str1, string str2, bool display = false) {
+    /// @brief 
+    /// @param str1 
+    /// @param str2 
+    /// @param display 
+    /// @return 
+    song lookup (string str1, string str2, bool display = false) {
         int key = hash_function(str1, str2);
 
         string permutation1 = str1 + str2;
         string permutation2 = str2 + str1;
 
-        T output("", "");
+        song output("", "");
         node *currPtr   = root;
 
         while(currPtr){
@@ -106,10 +143,12 @@ class binaryTree{
             int curr_key = hash_function(currPtr->data[0].artist, currPtr->data[0].name);
             if (key < curr_key){
                 currPtr = currPtr->left;
+                traversals++;
             }
 
             else if (key > curr_key){
                 currPtr = currPtr->right;
+                traversals++;
             }
 
             else if (key == curr_key) {
@@ -120,6 +159,8 @@ class binaryTree{
                         output.name = currPtr->data[i].name;
                         if (display)
                             write_out(output);
+
+                        traversals += i;
                         return output;
                     }
                 }
@@ -129,10 +170,16 @@ class binaryTree{
         return output;
     }
 
+    /// @brief
+    /// @param s 
     void write_out(song s) {
         cout << "Artist: " << s.artist << "   Song: " << s.name << endl;
     }
 
+    /// @brief 
+    /// @param str1 
+    /// @param str2 
+    /// @return 
     int hash_function(string str1, string str2) {
         string input = str1 + str2;
         int key = 0;
@@ -143,11 +190,13 @@ class binaryTree{
         return key;
     }
 
-
+    /// @brief 
     void print_all(){
         print_all(root);
     }
 
+    /// @brief 
+    /// @param currNode 
     void print_all(node *currNode){
         if (currNode){
             print_all(currNode->left);
@@ -158,7 +207,14 @@ class binaryTree{
         }
     }
 
-    // search function
-    // print all
+    /// @brief 
+    /// @param tmp 
+    void destroy(node *tmp){
+        if (tmp) {
+            destroy(tmp->left);
+            destroy(tmp->right);
+            delete tmp;
+        }
+    }
 
 }; // end class tree
