@@ -78,6 +78,26 @@ void load_bst(string file_name) {
         setlist.insert(s);
     }
 }
+void search_bst(string file_name){
+    ifstream f_id;
+    f_id.open(file_name, ios_base::in);
+
+    string line;
+    string band_name;
+    string song_title;
+
+    int i_split;
+
+    while(getline(f_id,line)){
+
+        i_split = line.find(',');
+        band_name = line.substr(0, i_split);
+        line.erase(0,i_split+2);
+        song_title = line.substr(0, line.size()-1);
+        setlist.lookup(band_name, song_title, true);
+    }
+    f_id.close();
+}
 
 
 int main(){
@@ -88,7 +108,7 @@ int main(){
     // search_hash(file_name);
 
     load_bst(file_name);
-    setlist.print_all();
+    search_bst(file_name);
 
 
     return 0;

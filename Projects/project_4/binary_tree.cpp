@@ -10,13 +10,13 @@ class binaryTree{
     protected:
     class node{
         public:
-        T data;
+        vector<T> data;
         node *left, *right, *up;   
-        node(T d){
-            data  = d;
+        node(){
             left  = nullptr;
             right = nullptr;
             up    = nullptr;
+
         }
     }; // end class node
 
@@ -34,38 +34,56 @@ class binaryTree{
 
         int key = hash_function(d.artist, d.name);
         
-        node *newNode   = new node(d);
+        node *newNode   = new node();
         node *currPtr   = root;
         node *parentPtr = nullptr;
+    
 
         int LR;
 
         // special case if tree is empty
-        if (nNodes == 0)
+        if (nNodes == 0) {
             root=newNode;
-        
+            root->data.push_back(d);
+        }
+
         else{
 
             // find which node should be parent to newNode
             while (currPtr){
                 parentPtr = currPtr;
-                int curr_key = hash_function(currPtr->data.artist, currPtr->data.name);
+                int curr_key = hash_function(currPtr->data[0].artist, currPtr->data[0].name);
+
                 if (key < curr_key){
                     currPtr = currPtr->left;
                     LR = 0;
                 }
-                else{
+
+                else if (key > curr_key){
                     currPtr = currPtr->right;
                     LR = 1;
+                }
+
+                else if (key == curr_key) {
+                    LR = 2;
+                    break;
                 }
             }
 
             // connect newNode to parent
             newNode->up = parentPtr;
-            if (LR==0)
+            if (LR==0) {
                 parentPtr->left = newNode;
-            else
+                newNode->data.push_back(d);
+            }
+            else if (LR==1) {
                 parentPtr->right = newNode;
+                newNode->data.push_back(d);
+            }
+            else {
+                currPtr->data.push_back(d);
+                delete newNode;
+            }
 
         }
 
@@ -81,11 +99,37 @@ class binaryTree{
         string permutation2 = str2 + str1;
 
         T output("", "");
+        node *currPtr   = root;
 
+        while(currPtr){
+
+            int curr_key = hash_function(currPtr->data[0].artist, currPtr->data[0].name);
+            if (key < curr_key){
+                currPtr = currPtr->left;
+            }
+
+            else if (key > curr_key){
+                currPtr = currPtr->right;
+            }
+
+            else if (key == curr_key) {
+                for (int i = 0; i < currPtr->data.size(); i++) {
+                    string compare_val = currPtr->data[i].artist + currPtr->data[i].name;
+                    if ((compare_val == permutation1) || (compare_val == permutation2)){
+                        output.artist = currPtr->data[i].artist;
+                        output.name = currPtr->data[i].name;
+                        if (display)
+                            write_out(output);
+                        return output;
+                    }
+                }
+            }    
+        }
+        cout << str1 << " " << str2 << ": Not found" << endl;
         return output;
     }
 
-    void write_out(T s) {
+    void write_out(song s) {
         cout << "Artist: " << s.artist << "   Song: " << s.name << endl;
     }
 
@@ -107,7 +151,9 @@ class binaryTree{
     void print_all(node *currNode){
         if (currNode){
             print_all(currNode->left);
-            cout << "Artist: " << currNode->data.artist << "     Song: " << currNode->data.name << endl;
+            for (int i = 0; i < currNode->data.size(); i++){
+                cout << "Artist: " << currNode->data[i].artist << "     Song: " << currNode->data[i].name << endl;
+            }
             print_all(currNode->right);
         }
     }

@@ -33,7 +33,6 @@ class hashTable{
     void insert(song s){
         int key = hash_function(s.artist, s.name);
         buffer[key].push_back(s);
-        buffer[key].push_back(s);
     }
 
     song lookup(string str1, string str2, bool display = false) {
