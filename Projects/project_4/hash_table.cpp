@@ -8,14 +8,17 @@ class hashTable{
     int num_elements;
 
     const static int buff_len = 1000;
-    vector <song*> buffer[buff_len];
+    vector <song> buffer[buff_len];
 
     public:
 
     hashTable(){
         num_elements = 0;
+        for (auto item : buffer) {
+            item = new vector<song*>;
+        }
     }
-    
+
 
     int hash_function(string str1, string str2){
         
@@ -32,9 +35,7 @@ class hashTable{
 
     void insert(song s){
         int key = hash_function(s.artist, s.name);
-        song* s1 = new song;
-        *s1 = s;
-        buffer[key].push_back(s1);
+        buffer[key].push_back(s);
     }
 
     song lookup(string str1, string str2, bool display = false) {
