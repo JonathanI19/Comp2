@@ -38,8 +38,8 @@ class hashTable{
 
     song lookup(string str1, string str2, bool display = false) {
         int key = hash_function(str1, str2);
-        string permutation1 = str1+str2;
-        string permutation2 = str2+str1;
+        string permutation1 = str1 + str2;
+        string permutation2 = str2 + str1;
 
         song output("", "");
 

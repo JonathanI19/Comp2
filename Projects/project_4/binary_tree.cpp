@@ -25,14 +25,14 @@ class binaryTree{
 
     public:
     // constructor - no parameters
-    tree(){
+    binaryTree(){
         root   = nullptr;
         nNodes = 0;
     }    
 
     void insert(T d){
 
-        int key = hash_function(d);
+        int key = hash_function(d.artist, d.name);
         
         node *newNode   = new node(d);
         node *currPtr   = root;
@@ -49,7 +49,8 @@ class binaryTree{
             // find which node should be parent to newNode
             while (currPtr){
                 parentPtr = currPtr;
-                if (d < currPtr->data){
+                int curr_key = hash_function(currPtr->data.artist, currPtr->data.name);
+                if (key < curr_key){
                     currPtr = currPtr->left;
                     LR = 0;
                 }
@@ -73,14 +74,29 @@ class binaryTree{
 
     }
 
-    void hash_function(T s) {
-        string input = s.artist + s.name;
+    T lookup (string str1, string str2, bool display = false) {
+        int key = hash_function(str1, str2);
+
+        string permutation1 = str1 + str2;
+        string permutation2 = str2 + str1;
+
+        T output("", "");
+
+        return output;
+    }
+
+    void write_out(T s) {
+        cout << "Artist: " << s.artist << "   Song: " << s.name << endl;
+    }
+
+    int hash_function(string str1, string str2) {
+        string input = str1 + str2;
+        int key = 0;
 
         for (int i = 0; i < input.length(); i++) {
             key += input[i];
         }
         return key;
-
     }
 
 
@@ -91,7 +107,7 @@ class binaryTree{
     void print_all(node *currNode){
         if (currNode){
             print_all(currNode->left);
-            cout << currNode->data << endl;
+            cout << "Artist: " << currNode->data.artist << "     Song: " << currNode->data.name << endl;
             print_all(currNode->right);
         }
     }
