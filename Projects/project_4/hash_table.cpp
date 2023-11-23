@@ -14,9 +14,6 @@ class hashTable{
 
     hashTable(){
         num_elements = 0;
-        for (auto item : buffer) {
-            item = new vector<song*>;
-        }
     }
 
 
@@ -36,6 +33,7 @@ class hashTable{
     void insert(song s){
         int key = hash_function(s.artist, s.name);
         buffer[key].push_back(s);
+        buffer[key].push_back(s);
     }
 
     song lookup(string str1, string str2, bool display = false) {
@@ -46,12 +44,12 @@ class hashTable{
         song output("", "");
 
         for(int i = 0; i < buffer[key].size(); i++){
-            string compare_val = buffer[key][i]->artist + buffer[key][i]->name;
+            string compare_val = buffer[key][i].artist + buffer[key][i].name;
             if ((compare_val == permutation1) || (compare_val == permutation2)){
                 if (display == true){
-                    write_out(*buffer[key][i]);
+                    write_out(buffer[key][i]);
                 }
-                return *buffer[key][i];
+                return buffer[key][i];
             }
         }
         cout << str1 << " " << str2 << ": Not found" << endl;
