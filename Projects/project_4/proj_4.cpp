@@ -16,7 +16,7 @@ int linecount = 0;
 
 /// @brief Loads song data from text file into hash table and binary search tree
 /// @param file_name (string) name of text file with song list
-void load_txt(string file_name) {
+void load_txt(string file_name, int argc, char *argv[]) {
 
     // Open up file stream
     ifstream f_id;
@@ -46,8 +46,12 @@ void load_txt(string file_name) {
         song s(band_name, song_title);
 
         // Insert into tracklist and setlist
-        tracklist.insert(s);
-        setlist.insert(s);
+        if (argv[1] == string("1")) {
+            tracklist.insert(s);
+        }
+        if (argv[1] == string("2")) {
+            setlist.insert(s);
+        }
     }
 
     // Close file stream
@@ -122,31 +126,56 @@ void search_bst(string file_name){
     f_id.close();
 }
 
+// Pass in arguments to effect whether BST or HT is used
+/// @brief Main function
+int main(int argc, char* argv[]){
 
-int main(){
+    // Exit program if command line argument not passed in
+    if (argc == 1) {
+        cout << "Command line argument required for program execution." << endl;
+        cout << "Pass in 1 for Hash Table" << endl;
+        cout << "Pass in 2 for Binary Search Tree" << endl;
+        exit(0);
+    }
+
+    // Exit program if invalid arg is passed in
+    if (argv[1] != string("1") && argv[1] != string("2")) {
+        cout << "Invalid arg" << endl;
+        cout << "Pass in 1 for Hash Table" << endl;
+        cout << "Pass in 2 for Binary Search Tree" << endl;
+        exit(0);
+    }
 
     // Location of text file
     string file_name = "/data/courses/ece_3822/current/project_4/songlist.txt";
 
     // Calls function to load txt file
-    load_txt(file_name);
+    load_txt(file_name, argc, argv);
 
-    // Calls functions to search through either hash table or binary search tree.
-    // Comment out as needed so that only one is executed
-    search_hash(file_name);
-    search_bst(file_name);
+    // If arg is 1 for Hash Table, search_hash and provide relevant output
+    if (argv[1] == string("1")) {
 
-    // Print out size of hash table and traversal count
-    cout << "Stack size of Hash Table: " << sizeof(tracklist) << endl;
-    double avg_ht = (double)tracklist.get_traversals()/(double)linecount;
-    cout << "Average traversals of Hash Table: " << avg_ht << endl;
+        // Call search_hash function
+        search_hash(file_name);
+            
+        // Print out size of hash table and traversal count
+        cout << "Stack size of Hash Table: " << sizeof(tracklist) << endl;
+        double avg_ht = (double)tracklist.get_traversals()/(double)linecount;
+        cout << "Average traversals of Hash Table: " << avg_ht << endl;
+    }
 
-    // Print out size of binary search tree
-    cout << "Stack size of Binary Search Tree: " << sizeof(setlist) << endl;
-    double avg_bst = (double)setlist.get_traversals()/(double)linecount;
-    cout << "Average traversals of Binary Search Tree: " << avg_bst << endl;
-    cout << "Number of nodes in Binary Search Tree: " << setlist.get_nNodes() << endl;
+    // If arg is 2 for Binary Search Tree, search_bst and provide relevant output
+    if (argv[1] == string("2")) {
 
+        // Call search_bst function
+        search_bst(file_name);
+
+        // print out size of binary search tree and traversal count and num of nodes
+        cout << "Stack size of Binary Search Tree: " << sizeof(setlist) << endl;
+        double avg_bst = (double)setlist.get_traversals()/(double)linecount;
+        cout << "Average traversals of Binary Search Tree: " << avg_bst << endl;
+        cout << "Number of nodes in Binary Search Tree: " << setlist.get_nNodes() << endl;
+    }
 
     return 0;
 }
