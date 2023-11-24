@@ -17,3 +17,5 @@ TRAVERSAL COMPARISON
 
 SUMMARY
 For my implementation of these functions, it appears that the Hash Table is superior in both memory allocation and in avg traversals per search. While the hash table method doesn't explicitly place the various vectors or their elements in the heap, it shouldn't matter as when you declare a vector, the header is stored in the stack but the elements are put into the heap. This is why the stack is so much larger for the hash table.
+
+I am also curious if there is a more memory efficient method for both the Hash Table and Binary Search Tree, as my results seem to contain more bytes than I initially expected.
