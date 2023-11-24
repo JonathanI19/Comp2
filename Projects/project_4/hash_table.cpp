@@ -85,7 +85,7 @@ class hashTable{
         song output("", "");
 
         // 1 Traversal added to count for computing hash and entering vector at pertinent location
-        traversals += 1;
+        traversals++;
 
         // Loop through the vector at buffer[key] until a song match is found
         for(int i = 0; i < buffer[key].size(); i++){

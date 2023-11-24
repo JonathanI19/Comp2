@@ -11,6 +11,8 @@ using namespace std;
 hashTable tracklist;
 binaryTree setlist;
 
+// Global var for linecount
+int linecount = 0;
 
 /// @brief Loads song data from text file into hash table and binary search tree
 /// @param file_name (string) name of text file with song list
@@ -28,6 +30,9 @@ void load_txt(string file_name) {
 
     // Get each line from file one at a time
     while(getline(f_id,line)){
+        
+        // Increment linecount
+        linecount++;
 
         // split at comma (separates band name and song name)
         i_split = line.find(',');
@@ -128,8 +133,20 @@ int main(){
 
     // Calls functions to search through either hash table or binary search tree.
     // Comment out as needed so that only one is executed
-    //search_hash(file_name);
+    search_hash(file_name);
     search_bst(file_name);
+
+    // Print out size of hash table and traversal count
+    cout << "Stack size of Hash Table: " << sizeof(tracklist) << endl;
+    double avg_ht = (double)tracklist.get_traversals()/(double)linecount;
+    cout << "Average traversals of Hash Table: " << avg_ht << endl;
+
+    // Print out size of binary search tree
+    cout << "Stack size of Binary Search Tree: " << sizeof(setlist) << endl;
+    double avg_bst = (double)setlist.get_traversals()/(double)linecount;
+    cout << "Average traversals of Binary Search Tree: " << avg_bst << endl;
+    cout << "Number of nodes in Binary Search Tree: " << setlist.get_nNodes() << endl;
+
 
     return 0;
 }
