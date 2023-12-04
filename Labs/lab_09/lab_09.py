@@ -23,6 +23,15 @@ from math import sqrt
 
 '''
 
+'''
+LAB QUESTIONS
+
+Both Djikstra's and AStar provide a shortest route of 528.
+
+However, using the compute guess method, AStar requires fewer loops to get to the same result. It isn't terribly more efficient, and I noticed that my first attempt at computing this actually resulted in more loops. It seems to rely heavily on the quality of the algorithm used to pick the best guess.
+
+'''
+
 def load_grid(fname):
     '''Loads data from file into memory
     Args:
@@ -187,7 +196,7 @@ def AStar(grid , loc_start , loc_end):
     def valid_loc(loc):
         return 0 <= loc[0] < n_rows and 0<=loc[1]< n_cols
 
-    # Computes Manhattan Distance between current node and end node
+    # Computes Straight line distance between current node and target node
     def compute_guess(loc_curr,loc_end):
         row_end,col_end = loc_end
         row_curr,col_curr = loc_curr
@@ -221,7 +230,7 @@ def AStar(grid , loc_start , loc_end):
                         if (dist_curr + 1) <= d_incomplete[loc_neighbor][0]:
                             d_incomplete[loc_neighbor] = (dist_curr+1 , loc_curr)
                             
-                            # heap is now sorted by min Manhattan Distance
+                            # heap is now sorted by min straight line distance
                             delta_m = compute_guess(loc_curr, loc_end)
                             heapq.heappush(h , (dist_curr+delta_m, dist_curr+1 , loc_neighbor) )
 
