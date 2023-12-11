@@ -7,7 +7,7 @@ class movie:
         self.year = year
 
     def display(self):
-        print(self.name, " | ", self.year)
+        print("Movie Name: ", self.name, " | Release Year: ", self.year)
         
     # Getter for ID
     def get_id(self):
@@ -20,6 +20,35 @@ class movie:
     # Getter for year
     def get_year(self):
         return self.year
+    
+class actor:
+    
+    def __init__(self, id, name, birth, death):
+        self.id = id
+        self.name = name
+        self.birth = birth
+        self.death = death
+
+    def display(self):
+        print("Name: ", self.name, " | Born: ", self.birth, " | Died: ", self.death)
+        
+    # Getter for ID
+    def get_id(self):
+        return self.id
+    
+    # Getter for name
+    def get_name(self):
+        return self.name
+
+    # Getter for birth year
+    def get_birth(self):
+        return self.year
+    
+    # Getter for death year
+    def get_death(self):
+        return self.death
+
+
 
 class hash_table:
 
@@ -81,15 +110,47 @@ def main():
     # Generate movie hash table
     movie_hash = hash_table(50000)
     
+    # Read movie data into movie_hash
     movie_file = open("../project_5_data/movies.tsv", 'r')
     lines = movie_file.readlines()
     for line in lines:
         data = line.split("\t")
+        
+        # Insert id, movie name, release year
         obj = movie(data[0], data[2], data[5])
         movie_hash.insert(obj)
+    movie_file.close()
+    
+    
+    ##########################################################
+    
+    lines = []
+    
+    # Generate actor hash table
+    actor_hash = hash_table(50000)
+    
+    # Read movie data into movie_hash
+    actor_file = open("../project_5_data/names.tsv", 'r')
+    lines = actor_file.readlines()
+    for line in lines:
+        data = line.split("\t")
         
+        if data[3] == "\\N":
+            data[3] = "N/A"
+        
+        # Insert id, name, birth year, death year
+        obj = actor(data[0], data[1], data[2], data[3])
+        actor_hash.insert(obj)
+    actor_file.close()
+    
+        
+    ##########################################################
+    
+    
+    
+    ##########################################################     
     movie_hash.lookup("tt9875554", display = True)
-        
-        
+    actor_hash.lookup("nm0000129", display = True)
+    
 if __name__ == "__main__":
     main()
