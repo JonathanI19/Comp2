@@ -153,6 +153,9 @@ class hash_table:
     
 def main():
     
+    # Flag for ignoring first row
+    flag = False
+    
     # Generate movie hash table
     movie_hash = hash_table(50000)
     
@@ -160,17 +163,23 @@ def main():
     movie_file = open("../project_5_data/movies.tsv", 'r')
     lines = movie_file.readlines()
     for line in lines:
-        data = line.split("\t")
+        if flag is True:
+            data = line.split("\t")
+            
+            # Insert id, movie name, release year
+            obj = movie(data[0], data[2], data[5])
+            movie_hash.insert(obj)
+        flag = True    
         
-        # Insert id, movie name, release year
-        obj = movie(data[0], data[2], data[5])
-        movie_hash.insert(obj)
     movie_file.close()
     
     
     ##########################################################
     
     lines = []
+    
+    # Flag for ignoring first row
+    flag = False
     
     # Generate actor hash table
     actor_hash = hash_table(50000)
@@ -179,21 +188,27 @@ def main():
     actor_file = open("../project_5_data/names.tsv", 'r')
     lines = actor_file.readlines()
     for line in lines:
-        data = line.split("\t")
+        if flag is True:
+            data = line.split("\t")
+            
+            # Reformat death data as needed
+            if data[3] == "\\N":
+                data[3] = "N/A"
+            
+            # Insert id, name, birth year, death year
+            obj = actor(data[0], data[1], data[2], data[3])
+            actor_hash.insert(obj)
+        flag = True
         
-        # Reformat death data as needed
-        if data[3] == "\\N":
-            data[3] = "N/A"
-        
-        # Insert id, name, birth year, death year
-        obj = actor(data[0], data[1], data[2], data[3])
-        actor_hash.insert(obj)
     actor_file.close()
     
         
     ##########################################################
     
     lines = []
+   
+    # Flag for ignoring first row
+    flag = False
     
     # Generate actor hash table
     roles_hash = hash_table(50000)
@@ -202,11 +217,14 @@ def main():
     roles_file = open("../project_5_data/starring_roles.tsv", 'r')
     lines = roles_file.readlines()
     for line in lines:
-        data = line.split("\t")
+        if flag is True:
+            data = line.split("\t")
+            
+            # Insert movie ID and actor ID
+            obj = starring_roles(data[0], data[2])
+            roles_hash.insert(obj)
+        flag = True
         
-        # Insert movie ID and actor ID
-        obj = starring_roles(data[0], data[2])
-        roles_hash.insert(obj)
     roles_file.close()    
     
     ##########################################################
