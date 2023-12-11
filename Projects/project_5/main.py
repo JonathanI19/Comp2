@@ -1,11 +1,16 @@
+
 #################################################################
+
+# Holds movie data in objects
 class movie:
 
+    # Constructor
     def __init__(self, id, name, year):
         self.id = id
         self.name = name
         self.year = year
 
+    # Displays formatted object data
     def display(self):
         print("Movie Name: ", self.name, " | Release Year: ", self.year)
         
@@ -20,15 +25,21 @@ class movie:
     # Getter for year
     def get_year(self):
         return self.year
-    
+
+
+#################################################################
+
+# Holds actor data in objects
 class actor:
     
+    # Constructor
     def __init__(self, id, name, birth, death):
         self.id = id
         self.name = name
         self.birth = birth
         self.death = death
 
+    # Displays formatted object data
     def display(self):
         print("Name: ", self.name, " | Born: ", self.birth, " | Died: ", self.death)
         
@@ -49,7 +60,32 @@ class actor:
         return self.death
 
 
+#################################################################
 
+# Stores role data in objects
+class starring_roles:
+    
+    # Constructor
+    def __init__(self, movie_id, name_id):
+        self.movie_id = movie_id
+        self.name_id = name_id
+
+    # Displays formatted object data
+    def display(self):
+        print("Name ID: ", self.name_id, " | Movie ID: ", self.movie_id)
+        
+    # Getter for name ID
+    def get_id(self):
+        return self.name_id
+    
+    # Getter for movie ID
+    def get_movie_id(self):
+        return self.movie_id
+
+
+#################################################################
+
+# Generic Hash Table data structure
 class hash_table:
 
     # constructor
@@ -95,6 +131,8 @@ class hash_table:
         
         # Loop through elements in target list and find all that match
         for item in self.buffer[index]:
+            
+            # If target matches item id, append to return_objs
             if target == item.get_id():
                 return_objs.append(item)
                 
@@ -102,8 +140,16 @@ class hash_table:
                 if display == True:
                     item.display()
 
+        # Handles invalid lookup ids
+        if len(return_objs) == 0:
+            return_objs = None
+            print(target, " Not Found")
+            
+        # Return list of objects that match target id
         return return_objs
-    
+
+
+#################################################################    
     
 def main():
     
@@ -135,6 +181,7 @@ def main():
     for line in lines:
         data = line.split("\t")
         
+        # Reformat death data as needed
         if data[3] == "\\N":
             data[3] = "N/A"
         
@@ -146,10 +193,46 @@ def main():
         
     ##########################################################
     
+    lines = []
     
+    # Generate actor hash table
+    roles_hash = hash_table(50000)
     
-    ##########################################################     
+    # Read movie data into movie_hash
+    roles_file = open("../project_5_data/starring_roles.tsv", 'r')
+    lines = roles_file.readlines()
+    for line in lines:
+        data = line.split("\t")
+        
+        # Insert movie ID and actor ID
+        obj = starring_roles(data[0], data[2])
+        roles_hash.insert(obj)
+    roles_file.close()    
+    
+    ##########################################################
+    
+    # Nested Function for lookup - Requires actor name id
+    def lookup_roles(name_id):
+        
+        # Collect role_objs that match target name_id
+        role_objs = roles_hash.lookup(name_id, display = False)
+        
+        # Print out actor name from actor_hash table per target name_id
+        print("\nMovies Starring ", actor_hash.lookup(name_id, display = False)[0].get_name(), ":")
+        
+        # Print out movie names stored in role_objs
+        for item in role_objs:
+            print(movie_hash.lookup(item.get_movie_id())[0].get_name())
+        print("\n")
+        
+    
+    # Lookup all movies featuring "nm0000129"
+    lookup_roles("nm0000129")
+    
+    # Lookup movie by ID
     movie_hash.lookup("tt9875554", display = True)
+    
+    # Lookup actor by ID
     actor_hash.lookup("nm0000129", display = True)
     
 if __name__ == "__main__":
