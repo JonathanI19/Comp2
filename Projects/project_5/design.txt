@@ -1,0 +1,13 @@
+To design this project, we chose to implement a series of hash tables. We created one hash table for each of the 3 input files. Within each hash table we only stored the data relevant to the project, although in a real world application, it would make sense to store all of the data pertaining to each ID. Keys for each hash table were generated via a unique ID present in each data file. This is shown below:
+
+1. "movies.tsv" -> movie_hash -> sorted by unique movie ID (ttxxxxxxx)
+2. "names.tsv" -> actor_hash -> sorted by unique actor ID (nmxxxxxxx)
+3. "starring_roles.tsv" -> roles_hash -> sorted by unique actor ID (nmxxxxxxx)
+
+To generate our hash keys, we simply used the ord method to find the ascii values of each ID. Since it was read in as a string with 2 letters in the front, we didn't see a need to differentiate between the letters and digits and this was just as effective.
+
+Collisions were handled by having a 2d list of lists. That way we can just append our data objects into the specified index for each hash table, instead of having to scan for an open slot. This makes our insertion times, which are the main operations we're performing (given the large size of the files), extremely fast. It acts similarly to a hash table of vectors in cpp.
+
+When looking up objects in each hash table via ID, we loop through each element in the inner list located at the specifed index of the outer list. All objects with IDs that match our search ID are appended to a new list and returned at the end of the method. This works very well for both Part 1 and Part 2.
+
+Part 3 was a bit more complex, as it required us to look in multiple hash tables. We could have figured out a way to compile all the relevant data into one hash table, but then we might run into other issues and would have to go store even more data in memory. Therefore, we decided it was best to generate a nested function in main (so that we had access to all the relevant hash tables without having to pass them in). This function performed all the necessary lookup and output required to correctly look up an actor by name ID and have it output formatted text showing their name and all the movies they starred in.
